@@ -17,7 +17,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 
-
 public class MainGame {
 	public static void main(String[] args){
 		SwingUtilities.invokeLater(new Runnable() {
@@ -35,6 +34,9 @@ public class MainGame {
 	
 	/***** instance variables (global) *****/
 	DrawingPanel drPanel = new DrawingPanel();
+	static int floor = 1;
+	
+	Room M = new Room();
 	
 	//constructor
 	MainGame() {
