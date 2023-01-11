@@ -4,6 +4,8 @@ package game;
 //Object class for the consumable items within the text adventure
 
 public class Consumable {
+	String consumeableNames[] = {"Apple", "Mysterious Black Potion", "Popcorn", "Pear"};
+	
 	int hpGain;
 	int dmgBuff;
 	int defenseBuff;

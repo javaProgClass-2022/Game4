@@ -4,6 +4,10 @@ package game;
 //Object class for the player weapons within the text adventure
 
 public class Weapon {
+	
+	String weaponNames[] = {"the Sword of Ares", "the Trident of Posideon", "a Longsword", "a claymore", "Harwood's Keyboard", "Jenifer's Mac's Fan" };
+	
+	
 	int atkDmg;
 	int weight;
 	int accuracy;

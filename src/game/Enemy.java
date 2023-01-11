@@ -4,6 +4,11 @@ package game;
 //Object class for the enemies within the text adventure
 
 public class Enemy {
+	String enemyNames[] = {"Hobgoblin", "Oger", "Dwarf", "Forst Sprite", "Ghost", "Water Spirt", "Elf", "Goblin", "Zombie", "Snake",
+			"Blue Slime", "Green Slime", "Red Slime", "Flegling Dragons", "Golem", "Demon"
+	};
+
+
 	int hp;
 	int atkDmg;
 	int speed;

@@ -36,7 +36,6 @@ public class MainGame {
 	DrawingPanel drPanel = new DrawingPanel();
 	static int floor = 1;
 	
-	Room M = new Room();
 	
 	//constructor
 	MainGame() {

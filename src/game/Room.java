@@ -6,12 +6,10 @@ package game;
 public class Room {
 	int enemyAmt;
 	int lootAmt;
-	int exits;
-
+	
 	Room(){
 		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
 		lootAmt = (int) ((Math.random()*3));
-		exits = (int) ((Math.random()*4)) + 1;
 	}
 }
 

@@ -4,10 +4,12 @@ package game;
 //Object class for the player Armour within the text adventure
 
 public class Armour {
+	String armourNames[] = {""};
+	
 	int defense;
 	int weight;
 
-	Armour(int hpGain, int dmgBuff, int defenseBuff, int duration){
+	Armour(){
 		defense = (int) ((Math.random()*4)+1)*MainGame.floor;
 		weight = (int) ((Math.random()*50)+1);		
 	}
