@@ -4,18 +4,18 @@ package game;
 //Object class for the consumable items within the text adventure
 
 public class Consumable {
-	String consumeableNames[] = {"Apple", "Mysterious Black Potion", "Popcorn", "Pear"};
+	String consumeableNames[] = {"Mystery potion", "Unknown elixir", "Enigmatic brew", "Cryptic tonic", "Mystical potion", "Occult elixir", "Enigmatic juice", 
+			"Abstruse potion", "Arcane elixir", "Esoteric potion", "Vague potion", "Mysterious food", "Unknown meal", "Enigmatic dish", "Cryptic cuisine",
+			"Mystical sustenance", "Occult nourishment", "Enigmatic fare", "Abstruse snack", "Arcane food", "Esoteric meal", "Vague sustenance", "Diet Coke"};
 	
 	int hpGain;
 	int dmgBuff;
 	int defenseBuff;
-	int duration;
 
 	Consumable(int hpGain, int dmgBuff, int defenseBuff, int duration){
 		this.hpGain = hpGain;
 		this.dmgBuff = dmgBuff;
-		this.defenseBuff = defenseBuff;
-		this.duration = duration;			
+		this.defenseBuff = defenseBuff;	
 	}
 }
 

@@ -5,7 +5,9 @@ package game;
 
 public class Weapon {
 	
-	String weaponNames[] = {"the Sword of Ares", "the Trident of Posideon", "a Longsword", "a claymore", "Harwood's Keyboard", "Jenifer's Mac's Fan" };
+	String weaponNames[] = {"the Sword of Ares", "the Trident of Posideon", "a Longsword", "a claymore", "Harwood's Keyboard", "Jenifer's Mac's Fan",
+			"Kunala's Lighter" 
+			};
 	
 	
 	int atkDmg;

@@ -4,7 +4,7 @@ package game;
 //Object class for the player abilites within the text adventure
 
 public class Ability {
-	String abilityNames[] = {""};
+	String abilityNames[] = {"Valkyries	Blessing", "Cheat Codes", "Sun's Love", "Spirtual Enoucragement", "Deaths Bite", "Zeus's Blessing", ""};
 	
 	
 	int hpGain;
