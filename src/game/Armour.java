@@ -4,6 +4,7 @@ package game;
 //Object class for the player Armour within the text adventure
 
 public class Armour {
+	String name;
 	String armourNames[] = {"Dragonscale Armor", "Demonforged Plate", "Elvish Chainmail", "Goblinhide Jerkin", "Plate of the Minotaur", "Trollhide Hauberk",
 			"Orcish Warplate", "Skeleton King's Cuirass", "Zombie Horde Shield", "Wraithblade Gauntlets", "Necromancer's Robe", "Witch Hunter's Hauberk", 
 			"Warlock's Mantle", "Demon's Bane Cuirass", "Devil's Dread Helm", "Succubus's Seduction Armor", "Incubus's Temptation Armor", "Vampire's Cloak",
@@ -18,6 +19,7 @@ public class Armour {
 	int weight;
 
 	Armour(){
+		name = armourNames[(int) ((Math.random()*armourNames.length))];
 		defense = (int) ((Math.random()*4)+1)*MainGame.floor;
 		weight = (int) ((Math.random()*50)+1);		
 	}

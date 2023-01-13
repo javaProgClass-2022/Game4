@@ -5,6 +5,7 @@ package game;
 import java.util.HashMap;
 
 public class Player {
+	int weight;
 	int hp;
 	int speed;
 	int def;
@@ -23,31 +24,32 @@ public class Player {
 		critChance = 10;
 		critDmg = 1.5;
 	}
-	
+
 
 	void takeDmg(int dmg){
 		int dmgTaken = dmg - def;
+		if (dmgTaken < 0) dmgTaken = 0;
 		hp =- dmgTaken;
 	}
 
 	int dealWeaponDmg() {
-		return playerWeapon.atkDmg; 
+		return playerWeapon.atkDmg + atkBoost; 
 	}
-	
+
 	void useAbility(Enemy target) {
-		
+
 		if (playerAbility.cooldownRoomAmt <= playerAbility.roomsSinceUse) {
-		hp += playerAbility.hpGain;
-		target.hp -= playerAbility.atkDmg;
-		playerAbility.roomsSinceUse = 0;
+			hp += playerAbility.hpGain;
+			target.hp -= playerAbility.atkDmg;
+			playerAbility.roomsSinceUse = 0;
 		}
 		else {System.out.println("Ability is not off cooldown");}
 	}
-	
-	void pickupItem(Consumable item) {
+
+	void useItem(Consumable item) {
 		hp += item.hpGain;
 	}
-	
+
 	void pickupUpgrade (Upgrade up ) {
 		def+=up.defenseUp;
 		speed += up.speedUp;
@@ -55,5 +57,15 @@ public class Player {
 		critDmg += up.critDmgUp;
 	}
 	
+	void pickUpArmour(Armour armour) {
+		playerArmour = armour;
+		weight = playerArmour.weight + playerWeapon.weight;
+	}
 	
+	void pickUpWeapon(Weapon weapon) {
+		playerWeapon = weapon;
+		weight = playerArmour.weight + playerWeapon.weight;
+	}
+
+
 }
