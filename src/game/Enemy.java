@@ -21,7 +21,10 @@ public class Enemy {
 		speed = (int) ((Math.random()*100))+1;
 	}
 	
-	void takeDmg(){}
+	
+	void takeDmg(int dmg){
+		hp =-dmg;
+	}
 
 	void dealDmg(){}
 }

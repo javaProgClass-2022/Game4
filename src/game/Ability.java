@@ -10,6 +10,7 @@ public class Ability {
 	int hpGain;
 	int atkDmg;
 	int cooldownRoomAmt;
+	int roomsSinceUse;
 
 	Ability(){
 		hpGain = (int) ((Math.random()*20)+1*MainGame.floor);
