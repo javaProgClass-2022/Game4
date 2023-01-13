@@ -4,7 +4,7 @@ package game;
 //Object class for the player weapons within the text adventure
 
 public class Weapon {
-	
+	String name;
 	String weaponNames[] = {"the Sword of Ares", "the Trident of Posideon", "a Longsword", "a claymore", "Harwood's Keyboard", "Jenifer's Mac's Fan",
 			"Kunala's Lighter" 
 			};
@@ -15,6 +15,7 @@ public class Weapon {
 	int accuracy;
 
 	Weapon(){
+		name = weaponNames[(int) ((Math.random()*weaponNames.length))];
 		atkDmg = (int) ((Math.random()*6)) + MainGame.floor*3;
 		weight = (int) ((Math.random()*25)+1);
 		accuracy = 100;
