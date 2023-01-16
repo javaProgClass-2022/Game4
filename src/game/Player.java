@@ -30,41 +30,61 @@ public class Player {
 		int dmgTaken = dmg - def;
 		if (dmgTaken < 0) dmgTaken = 0;
 		hp =- dmgTaken;
+		System.out.println("You took " + hp + " damage");
 	}
 
+	
 	int dealWeaponDmg() {
-		return playerWeapon.atkDmg + atkBoost; 
+		int dmg = playerWeapon.atkDmg + atkBoost;
+		
+		//Checking if crit triggers
+		int critRandomizer = (int) ((Math.random()*100)+1);	
+		if (critRandomizer <= critChance) {
+			dmg *= (int) critDmg;
+			System.out.println("Critical Hit!");
+		}
+		
+		return dmg;
 	}
 
+	//Note Abilities are armour peirc
 	void useAbility(Enemy target) {
-
 		if (playerAbility.cooldownRoomAmt <= playerAbility.roomsSinceUse) {
 			hp += playerAbility.hpGain;
-			target.hp -= playerAbility.atkDmg;
+			target.takeDmg(playerAbility.atkDmg);
 			playerAbility.roomsSinceUse = 0;
+			System.out.println("You healed " + playerAbility.hpGain +" Health" );
 		}
 		else {System.out.println("Ability is not off cooldown");}
 	}
 
+	
 	void useItem(Consumable item) {
 		hp += item.hpGain;
+		System.out.println("You Healed " + hp + " Health");
 	}
 
+	
 	void pickupUpgrade (Upgrade up ) {
 		def+=up.defenseUp;
 		speed += up.speedUp;
 		critChance += up.critChanceUp;
 		critDmg += up.critDmgUp;
+		System.out.println("Random Stat Upgraded");
 	}
+	
 	
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
 		weight = playerArmour.weight + playerWeapon.weight;
+		System.out.println("New Armour Equipped");
 	}
+
 	
 	void pickUpWeapon(Weapon weapon) {
 		playerWeapon = weapon;
 		weight = playerArmour.weight + playerWeapon.weight;
+		System.out.println("New Weapon Equipped");
 	}
 
 

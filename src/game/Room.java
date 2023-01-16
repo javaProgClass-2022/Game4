@@ -11,12 +11,16 @@ public class Room {
 	boolean ladder;
 	
 	Room(){
+		//Adding the Enemies
 		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
+		Enemy enemies[] = new Enemy[enemyAmt];
+		for (int i = 0; i <= enemyAmt; i++) enemies[i] = new Enemy();
+		
+		//Adding the Loot
 		lootAmt = (int) ((Math.random()*3));
 		explored = false;
 		ladder = false;
-		spawnRoom = false;
-		
+		spawnRoom = false;	
 	}
 }
 

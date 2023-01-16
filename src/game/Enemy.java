@@ -5,7 +5,7 @@ package game;
 
 public class Enemy {
 	String name;
-	String enemyNames[] = {"Hobgoblin", "Oger", "Dwarf", "Forst Sprite", "Ghost", "Water Spirt", "Elf", "Goblin", "Zombie", "Snake", "Gargoyle",
+	static final String ENEMYNAMES[] = {"Hobgoblin", "Oger", "Dwarf", "Forst Sprite", "Ghost", "Water Spirt", "Elf", "Goblin", "Zombie", "Snake", "Gargoyle",
 			"Blue Slime", "Green Slime", "Red Slime", "Flegling Dragons", "Golem", "Demon", "Troll", "Vampire", "Minotaur", "Phoenix", "Griffin",
 			"Harpy", "Kelpie", "Dryad", "Satyr", "Centaur","Gnome", "Will o' wisp", "Wraith"
 	};
@@ -16,7 +16,7 @@ public class Enemy {
 	int speed;
 
 	Enemy(){
-		name = enemyNames[(int) ((Math.random()*enemyNames.length))];
+		name = ENEMYNAMES[(int) ((Math.random()*ENEMYNAMES.length))];
 		hp = (int) ((Math.random()*10)) + MainGame.floor*5;
 		atkDmg = (int) ((Math.random()*3)) + MainGame.floor*2;
 		speed = (int) ((Math.random()*100))+1;
@@ -25,6 +25,7 @@ public class Enemy {
 	
 	void takeDmg(int dmg){
 		hp =-dmg;
+		System.out.println("The " + name + " took " + dmg + " damage" );
 	}
 }
 
