@@ -11,6 +11,11 @@ public class Room {
 	boolean ladder;
 	
 	Room(){
+		explored = false;
+		ladder = false;
+		spawnRoom = false;	
+		
+		
 		//Adding the Enemies
 		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
 		Enemy enemies[] = new Enemy[enemyAmt];
@@ -18,9 +23,16 @@ public class Room {
 		
 		//Adding the Loot
 		lootAmt = (int) ((Math.random()*3));
-		explored = false;
-		ladder = false;
-		spawnRoom = false;	
+		Loot roomLoot[] = new Loot[lootAmt];
+		
+		for (int i = 0; i <= lootAmt; i ++) {
+			int lootType =  (int) ((Math.random()*5));
+			if (lootType == 0) roomLoot[i] = new Weapon();
+			if (lootType == 1) roomLoot[i] = new Consumable();
+			if (lootType == 2) roomLoot[i] = new Armour();;
+			if (lootType == 3) roomLoot[i] = new Ability();;
+			if (lootType == 4) roomLoot[i] = new Upgrade();;
+		}
 	}
 }
 

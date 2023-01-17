@@ -47,7 +47,7 @@ public class Player {
 		return dmg;
 	}
 
-	//Note Abilities are armour peirc
+	//Note Abilities are Armour piercing
 	void useAbility(Enemy target) {
 		if (playerAbility.cooldownRoomAmt <= playerAbility.roomsSinceUse) {
 			hp += playerAbility.hpGain;
@@ -61,7 +61,7 @@ public class Player {
 	
 	void useItem(Consumable item) {
 		hp += item.hpGain;
-		System.out.println("You Healed " + hp + " Health");
+		System.out.println("You Consumed " + item.name + " and Healed " + hp + " Health");
 	}
 
 	
