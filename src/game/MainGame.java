@@ -103,6 +103,7 @@ public class MainGame {
 	}
 
 	void drawBorder(Graphics2D g2) {
+		g2.setFont(new Font("Courier New", Font.BOLD, 17));
 		g2.drawRect(40, 40, 325, 330);
 		g2.drawRect(390, 40, 170, 330);
 
@@ -112,15 +113,32 @@ public class MainGame {
 
 
 		//character stats
-		g2.setFont(new Font("Courier New", Font.BOLD, 17));
 		g2.drawString("character stats", 400, 65);
 
 		g2.drawLine(390, 80, 560, 80);
-		g2.drawString("hp", 400, 80);
-		g2.drawString("def", 400, 80);
-		g2.drawString("speed", 400, 80);
-		g2.drawString("", 400, 80);
-		g2.drawString("", 400, 80);
+		g2.drawString("hp", 445, 110);
+		g2.drawString("def", 435, 140);
+		g2.drawString("speed", 415, 170);
+		g2.drawString("dmg", 435, 200);
+		
+		g2.drawString(""+player.hp, 485, 110);
+		g2.drawString(""+player.def, 485, 140);
+		g2.drawString(""+player.speed, 485, 170);
+		g2.drawString(""+player.playerWeapon.atkDmg, 485, 200);
+		
+		
+		g2.setStroke(new BasicStroke(1));
+		g2.setColor(Color.LIGHT_GRAY);
+		g2.drawLine(475, 100, 475, 205);
+		g2.drawLine(430, 225, 520, 225);
+		
+		g2.setStroke(new BasicStroke(1));
+		g2.setColor(Color.WHITE);
+		
+		g2.drawString("inventory", 430, 255);
+		g2.drawString("help", 455, 285);
+		g2.drawString("achievements", 415, 315);
+		g2.drawString("staff", 450, 345);
 
 	}
 

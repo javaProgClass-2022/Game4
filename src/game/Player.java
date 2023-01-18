@@ -23,6 +23,7 @@ public class Player {
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
+		playerWeapon=new Weapon("Default");
 	}
 
 
