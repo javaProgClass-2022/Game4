@@ -135,11 +135,25 @@ public class MainGame {
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.WHITE);
 		
-		g2.drawString("inventory", 430, 255);
-		g2.drawString("help", 455, 285);
+		g2.drawString("help", 455, 255);
+		g2.drawString("inventory", 430, 285);
 		g2.drawString("achievements", 415, 315);
 		g2.drawString("staff", 450, 345);
-
+		printConsole(g2);
+	}
+	
+	void printConsole(Graphics2D g2) {
+		g2.setColor(Color.darkGray);
+		g2.drawString("1---------2---------3---------4---------5------8", 60, 455);
+		g2.drawString("1---------2---------3---------4---------5------8", 60, 480);
+		g2.drawString("1---------2---------3---------4---------5------8", 60, 505);
+		g2.drawString("1---------2---------3---------4---------5------8", 60, 530);
+		
+		g2.setColor(Color.WHITE);
+		
+		
+		
+		
 	}
 
 	void run() {
