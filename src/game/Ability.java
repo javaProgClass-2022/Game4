@@ -21,5 +21,7 @@ public class Ability extends Loot {
 		atkDmg = (int) ((Math.random()*15)+1*MainGame.floor);
 		cooldownRoomAmt = (int) ((Math.random()*10)+1);
 	}
+	
+	public String toString() {return name;}
 }
 

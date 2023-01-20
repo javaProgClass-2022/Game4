@@ -21,11 +21,12 @@ public class Enemy {
 		atkDmg = (int) ((Math.random()*3)) + MainGame.floor*2;
 		speed = (int) ((Math.random()*100))+1;
 	}
-	
-	
+
+
 	void takeDmg(int dmg){
 		hp =-dmg;
-		System.out.println("The " + name + " took " + dmg + " damage" );
+		if (hp > 0) MainGame.displayDialogue = ("The " + name + " took " + dmg + " damage" );
+		else MainGame.displayDialogue = ("The " + name + " has been slain");
 	}
 }
 

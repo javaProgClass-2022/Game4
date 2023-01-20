@@ -9,4 +9,9 @@ abstract class Loot {
 		id = currentId+1;
 		currentId += 1;
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }

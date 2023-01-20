@@ -3,6 +3,7 @@ package game;
 //Object class for the player upgrades
 
 public class Upgrade extends Loot {
+	String name = "Stat Booster";
 	int defenseUp;
 	int speedUp;
 	int critChanceUp;

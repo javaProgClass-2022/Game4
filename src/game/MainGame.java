@@ -52,13 +52,9 @@ public class MainGame {
 	}
 
 	class KL implements KeyListener{
-
-		@Override
+		
 		public void keyTyped(KeyEvent e) {}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-		}
+		public void keyPressed(KeyEvent e) {}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
