@@ -1,10 +1,11 @@
 package game;
 //Justin, Jenifer, Lousia ~ Jan. 12, 2023
-//Object class for player
+//Object class for the player
 
 import java.util.HashMap;
 
 public class Player {
+	//Player Stats
 	int weight;
 	int hp;
 	int speed;
@@ -12,6 +13,8 @@ public class Player {
 	int atkBoost;
 	int critChance;
 	double critDmg;
+
+	//Player Inventory
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();
 	Armour playerArmour;
 	Weapon playerWeapon;
@@ -34,17 +37,16 @@ public class Player {
 		System.out.println("You took " + hp + " damage");
 	}
 
-	
+
 	int dealWeaponDmg() {
 		int dmg = playerWeapon.atkDmg + atkBoost;
-		
+
 		//Checking if crit triggers
 		int critRandomizer = (int) ((Math.random()*100)+1);	
 		if (critRandomizer <= critChance) {
 			dmg *= (int) critDmg;
 			System.out.println("Critical Hit!");
 		}
-		
 		return dmg;
 	}
 
@@ -59,13 +61,13 @@ public class Player {
 		else {System.out.println("Ability is not off cooldown");}
 	}
 
-	
+
 	void useItem(Consumable item) {
 		hp += item.hpGain;
 		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + item.hpGain + " HP";
 	}
 
-	
+
 	void pickupUpgrade (Upgrade up ) {
 		def+=up.defenseUp;
 		speed += up.speedUp;
@@ -73,19 +75,25 @@ public class Player {
 		critDmg += up.critDmgUp;
 		System.out.println("Random Stat Upgraded");
 	}
-	
-	
+
+
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
 		weight = playerArmour.weight + playerWeapon.weight;
 		System.out.println("New Armour Equipped");
 	}
 
-	
+
 	void pickUpWeapon(Weapon weapon) {
 		playerWeapon = weapon;
 		weight = playerArmour.weight + playerWeapon.weight;
 		System.out.println("New Weapon Equipped");
+	}
+
+
+	void pickUpConsumable(Consumable food) {
+		inventory.put(food.name, food);
+		MainGame.displayDialogue = (food.name + " added to inventory");
 	}
 
 

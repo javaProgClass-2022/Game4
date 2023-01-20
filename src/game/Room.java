@@ -34,5 +34,37 @@ public class Room {
 			if (lootType == 4) roomLoot[i] = new Upgrade();;
 		}
 	}
+
+
+	//Method that lets the player look around the room
+	void look(){
+		String display = "";
+
+		//If there are no enemies display the loot in the room
+		if (deadEnemyCounter == enemyAmt) {
+			display = ("The room countains the following items:        "); //Each line contains 48 characters so to display the text better we add spaces
+			for (int i = 0; i < lootAmt; i++) {
+				Loot currentLoot = roomLoot[i];
+				if  (currentLoot instanceof Weapon) currentLoot = (Weapon)currentLoot;
+				if  (currentLoot instanceof Consumable)currentLoot = (Consumable)currentLoot;
+				if  (currentLoot instanceof Ability) currentLoot = (Ability)currentLoot;
+				if  (currentLoot instanceof Upgrade) currentLoot = (Upgrade)currentLoot;
+				if  (currentLoot instanceof Armour) currentLoot = (Armour)currentLoot;
+
+				display += currentLoot.toString();
+				display += (48 - currentLoot.toString().length()); //Adding the extra characters to go  to the next line
+			}
+		}
+
+		//If there are enemies display them
+		if (deadEnemyCounter <= enemyAmt) {
+			display = ("The room countains the following enemies:       "); //Each line contains 48 characters so to display the text better we add spaces
+			for (int i = 0; i < enemies.length; i++) {
+				display += enemies[i].toString();
+				display += (48 - enemies[i].toString().length()); //Adding the extra characters to go  to the next line
+			}
+		}
+		MainGame.displayDialogue = (display);
+	}
 }
 

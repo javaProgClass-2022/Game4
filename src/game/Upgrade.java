@@ -16,4 +16,7 @@ public class Upgrade extends Loot {
 		if (typeRandomizer == 3) critChanceUp = 1;
 		if (typeRandomizer == 4) critDmgUp = 0.2;
 	}
+
+	@Override
+	public String toString() {return name;}
 }

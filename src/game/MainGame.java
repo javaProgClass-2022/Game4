@@ -12,20 +12,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.border.Border;
+
 
 //TODO make command not case-sensitive
 
@@ -33,6 +27,7 @@ import javax.swing.border.Border;
 public class MainGame {
 	//inner class
 	class DrawingPanel extends JPanel {
+		
 		DrawingPanel() {
 			this.setBackground(Color.BLACK);
 			this.setPreferredSize(new Dimension(PANW,PANH));  //remember that the JPanel size is more accurate than JFrame.

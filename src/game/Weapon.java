@@ -5,8 +5,10 @@ package game;
 
 public class Weapon extends Loot {
 	String name;
-	static final String WEAPONNAMES[] = {"the Sword of Ares", "the Trident of Posideon", "a Longsword", "a claymore", "Harwood's Keyboard", "Jenifer's Mac's Fan",
-			"Kunala's Lighter" 
+	static final String WEAPONNAMES[] = {"Sword of Ares", "Trident of Posideon", "Longsword", "Claymore", "Harwood's Keyboard", "Jenifer's Mac's Fan",
+			"Kunala's Lighter", "Spear", "Bow", "Crossbow", "Fishing Rod", "Stick", "BatBat", "Excalibur", "Calibur", "Blunt Rock", "Pike", "Gun", 
+			"Chainsaw", "Rapier", "Broadsword", "Pencil", "Chair", "Shield", "Blade of Perseus", "Staff of Merlin", "Nail Gun", "Arcane Staff", "Shadow Blade",
+			"Terrabalade", "Night's Edge"
 	};
 
 
