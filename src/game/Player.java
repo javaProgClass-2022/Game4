@@ -62,7 +62,7 @@ public class Player {
 	
 	void useItem(Consumable item) {
 		hp += item.hpGain;
-		System.out.println("You Consumed " + item.name + " and Healed " + hp + " Health");
+		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + item.hpGain + " HP";
 	}
 
 	

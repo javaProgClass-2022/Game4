@@ -6,6 +6,7 @@ package game;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -24,10 +25,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 
+//TODO make command not case-sensitive
 
-//TODO connect all scanner to player input
-//TODO replace all output with draw string
 
 public class MainGame {
 	//inner class
@@ -45,8 +46,8 @@ public class MainGame {
 
 			g2.setStroke(new BasicStroke(2));	
 			g2.setColor(Color.white);
-
-			drawBorder(g2);
+			printBoard(g2);
+			printConsole(g2);
 		}
 	}
 
@@ -65,9 +66,8 @@ public class MainGame {
 			//			System.out.println(e.getKeyCode());
 			if (e.getKeyCode()==10) {
 				//return command line and empty input box
-				currCommand=commandBox.getText().split(" ",2);
-				commandBox.setText(" ");
-				System.out.println(Arrays.toString(currCommand));
+				currCommand=commandBox.getText().trim().split(" ",2);
+				commandBox.setText("");
 
 
 				for (String s:adj) {
@@ -87,12 +87,14 @@ public class MainGame {
 		frame.setResizable(false);
 
 		KL keyL=new KL();
-		commandBox=new JTextField();
+		commandBox=new JTextArea();
 		commandBox.addKeyListener(keyL);
 		commandBox.setBounds(145,390,415,40);
 
 		commandBox.setFont(new Font("Bradley Hand",Font.PLAIN,15));
 		commandBox.setMargin(new Insets(10,10,10,10));
+		
+		
 		dPanel.add(commandBox);
 
 		//		
@@ -102,7 +104,7 @@ public class MainGame {
 		frame.setVisible(true);		
 	}
 
-	void drawBorder(Graphics2D g2) {
+	void printBoard(Graphics2D g2) {
 		g2.setFont(new Font("Courier New", Font.BOLD, 17));
 		g2.drawRect(40, 40, 325, 330);
 		g2.drawRect(390, 40, 170, 330);
@@ -116,17 +118,20 @@ public class MainGame {
 		g2.drawString("character stats", 400, 65);
 
 		g2.drawLine(390, 80, 560, 80);
+		
 		g2.drawString("hp", 445, 110);
 		g2.drawString("def", 435, 140);
 		g2.drawString("speed", 415, 170);
 		g2.drawString("dmg", 435, 200);
 		
+		
+		g2.setFont(new Font("Bradley Hand",Font.BOLD,17));
 		g2.drawString(""+player.hp, 485, 110);
 		g2.drawString(""+player.def, 485, 140);
 		g2.drawString(""+player.speed, 485, 170);
 		g2.drawString(""+player.playerWeapon.atkDmg, 485, 200);
 		
-		
+		g2.setFont(new Font("Courier New", Font.BOLD, 17));
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.drawLine(475, 100, 475, 205);
@@ -139,20 +144,48 @@ public class MainGame {
 		g2.drawString("inventory", 430, 285);
 		g2.drawString("achievements", 415, 315);
 		g2.drawString("staff", 450, 345);
-		printConsole(g2);
+
 	}
 	
 	void printConsole(Graphics2D g2) {
 		g2.setColor(Color.darkGray);
-		g2.drawString("1---------2---------3---------4---------5------8", 60, 455);
-		g2.drawString("1---------2---------3---------4---------5------8", 60, 480);
-		g2.drawString("1---------2---------3---------4---------5------8", 60, 505);
-		g2.drawString("1---------2---------3---------4---------5------8", 60, 530);
+		g2.drawString("0---------1---------2---------3---------4------7", 60, 455);
+		g2.drawString("0---------1---------2---------3---------4------7", 60, 480);
+		g2.drawString("0---------1---------2---------3---------4------7", 60, 505);
+		g2.drawString("0---------1---------2---------3---------4------7", 60, 530);
 		
 		g2.setColor(Color.WHITE);
 		
+//		String testing="this is a very long line of random english words that i came up with to test out what ever i am supposed to do. ";
 		
+		int locX=60;
+		int locY=455;
+		int lineH=25;
 		
+		//one extra spot for spaces added
+		int maxChar=48;
+		int charCount=0;
+		String line = "";
+		String[] splitLine=displayDialogue.split(" ");
+		
+		for (String word:splitLine) {
+			charCount+=word.length();
+//			System.out.println(charCount);
+			if (charCount<=maxChar) {
+				line+=(word+" ");
+				
+				//add the space to count
+				charCount+=1;
+				
+			}else {
+//				System.out.println(line);
+				g2.drawString(line, locX, locY);
+				line=word+" ";
+				locY+=lineH;
+				charCount=word.length()+1;
+			}
+		}
+		g2.drawString(line, locX, locY);
 		
 	}
 
@@ -175,8 +208,7 @@ public class MainGame {
 		//if the name of the item exist in player inventory
 		if (player.inventory.containsKey(item)) {
 			player.useItem(player.inventory.get(item));
-			System.out.println(player.hp);
-		}else System.out.println(item+" not found");
+		}else displayDialogue=item+" not found";
 
 	}
 
@@ -189,7 +221,7 @@ public class MainGame {
 	final static int PANH = 600;
 
 	DrawingPanel dPanel = new DrawingPanel();
-	JTextField commandBox;
+	JTextArea commandBox;
 	Player player=new Player();
 	static int floor = 1;
 
@@ -198,6 +230,7 @@ public class MainGame {
 	
 	String[] adj={"consume"};
 	String[] currCommand;
+	static String displayDialogue="";
 
 
 
@@ -220,8 +253,15 @@ public class MainGame {
 	}
 
 	public static void main(String[] args) {
-		new MainGame();
-
+		SwingUtilities.invokeLater(new Runnable() {
+			
+//			@Override
+			public void run() {
+				new MainGame();
+				
+			}
+		});
+		
 	}
 }
 
