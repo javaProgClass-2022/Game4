@@ -49,7 +49,7 @@ public class Room {
 		}
 	}
 
-	
+
 	//Method that lets the player look around the room
 	void look(){
 		String display = "";
@@ -71,7 +71,7 @@ public class Room {
 		}
 
 		//If there are enemies display them
-		if (deadEnemyCounter != enemyAmt) {
+		if (deadEnemyCounter <= enemyAmt) {
 			display = ("The room countains the following enemies:       "); //Each line contains 48 characters so to display the text better we add spaces
 			for (int i = 0; i < enemies.length; i++) {
 				display += enemies[i].toString();

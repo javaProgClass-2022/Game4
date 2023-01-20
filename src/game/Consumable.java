@@ -7,7 +7,8 @@ public class Consumable extends Loot {
 	String name;
 	static final String CONSUMEABLENAMES[] = {"Mystery potion", "Unknown elixir", "Enigmatic brew", "Cryptic tonic", "Mystical potion", "Occult elixir", "Enigmatic juice", 
 			"Abstruse potion", "Arcane elixir", "Esoteric potion", "Vague potion", "Mysterious food", "Unknown meal", "Enigmatic dish", "Cryptic cuisine",
-			"Mystical sustenance", "Occult nourishment", "Enigmatic fare", "Abstruse snack", "Arcane food", "Esoteric meal", "Vague sustenance", "Diet Coke"
+			"Mystical sustenance", "Occult nourishment", "Enigmatic fare", "Abstruse snack", "Arcane food", "Esoteric meal", "Vague sustenance", "Diet Coke",
+			"Pizza", "Pasta", "Chicken"
 	};
 
 	int hpGain;
@@ -17,7 +18,7 @@ public class Consumable extends Loot {
 		name = CONSUMEABLENAMES[(int) ((Math.random()*CONSUMEABLENAMES.length))];
 
 	}
-	
+
 	public String toString() {return name;}
 }
 
