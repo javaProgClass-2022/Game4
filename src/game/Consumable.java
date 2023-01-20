@@ -18,7 +18,7 @@ public class Consumable extends Loot {
 		name = CONSUMEABLENAMES[(int) ((Math.random()*CONSUMEABLENAMES.length))];
 
 	}
-
+	
 	public String toString() {return name;}
 }
 

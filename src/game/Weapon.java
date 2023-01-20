@@ -22,12 +22,15 @@ public class Weapon extends Loot {
 		weight = (int) ((Math.random()*25)+1);
 		accuracy = 100;
 	}
-	
+
 	Weapon(String defaultname){
 		name = "Ham";
 		atkDmg = 5;
 		weight = 10;
 		accuracy = 75;
 	}
+
+	@Override
+	public String toString() {return name;}
 }
 

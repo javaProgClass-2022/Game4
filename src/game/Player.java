@@ -26,7 +26,7 @@ public class Player {
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
-		playerWeapon=new Weapon("Default");
+		playerWeapon = new Weapon("default");
 	}
 
 
@@ -34,7 +34,7 @@ public class Player {
 		int dmgTaken = dmg - def;
 		if (dmgTaken < 0) dmgTaken = 0;
 		hp =- dmgTaken;
-		System.out.println("You took " + hp + " damage");
+		MainGame.displayDialogue = ("You took " + hp + " damage");
 	}
 
 
@@ -45,7 +45,7 @@ public class Player {
 		int critRandomizer = (int) ((Math.random()*100)+1);	
 		if (critRandomizer <= critChance) {
 			dmg *= (int) critDmg;
-			System.out.println("Critical Hit!");
+			MainGame.displayDialogue = ("Critical Hit!");
 		}
 		return dmg;
 	}
@@ -56,9 +56,9 @@ public class Player {
 			hp += playerAbility.hpGain;
 			target.takeDmg(playerAbility.atkDmg);
 			playerAbility.roomsSinceUse = 0;
-			System.out.println("You healed " + playerAbility.hpGain +" Health" );
+			MainGame.displayDialogue = ("You healed " + playerAbility.hpGain +" Health" );
 		}
-		else {System.out.println("Ability is not off cooldown");}
+		else {MainGame.displayDialogue = ("Ability is not off cooldown");}
 	}
 
 
@@ -73,21 +73,26 @@ public class Player {
 		speed += up.speedUp;
 		critChance += up.critChanceUp;
 		critDmg += up.critDmgUp;
-		System.out.println("Random Stat Upgraded");
+		MainGame.displayDialogue = ("Random Stat Upgraded");
 	}
 
 
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
 		weight = playerArmour.weight + playerWeapon.weight;
-		System.out.println("New Armour Equipped");
+		MainGame.displayDialogue = (armour.name + " equiped");
 	}
 
 
 	void pickUpWeapon(Weapon weapon) {
 		playerWeapon = weapon;
 		weight = playerArmour.weight + playerWeapon.weight;
-		System.out.println("New Weapon Equipped");
+		MainGame.displayDialogue = (weapon.name + " equiped");
+	}
+	
+	void pickUpConsumable(Consumable food) {
+		inventory.put(food.name, food);
+		MainGame.displayDialogue = (food.name + " added to inventory");
 	}
 
 

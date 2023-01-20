@@ -24,5 +24,7 @@ public class Armour extends Loot {
 		defense = (int) ((Math.random()*4)+1)*MainGame.floor;
 		weight = (int) ((Math.random()*50)+1);		
 	}
+
+	public String toString() {return name;}
 }
 
