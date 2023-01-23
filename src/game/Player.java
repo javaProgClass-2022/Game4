@@ -5,6 +5,7 @@ package game;
 import java.util.HashMap;
 
 public class Player {
+	//Player Stats
 //	int weight;
 	int hp;
 //	int speed;
@@ -79,14 +80,12 @@ public class Player {
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
 		MainGame.displayDialogue = (armour.name + " equiped");
-//		weight = playerArmour.weight + playerWeapon.weight;
 	}
 
 
 	void pickUpWeapon(Weapon weapon) {
 		playerWeapon = weapon;
 		MainGame.displayDialogue = (weapon.name + " equiped");
-//		weight = playerArmour.weight + playerWeapon.weight;
 	}
 	
 	void pickUpConsumable(Consumable food) {
