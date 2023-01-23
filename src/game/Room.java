@@ -34,7 +34,6 @@ public class Room {
 			if (lootType == 0) roomLoot[i] = new Weapon();
 			if (lootType == 1) roomLoot[i] = new Consumable();
 			if (lootType == 2) roomLoot[i] = new Armour();
-			if (lootType == 3) roomLoot[i] = new Ability();
 			if (lootType == 4) roomLoot[i] = new Upgrade();
 		}	
 	}
@@ -61,7 +60,6 @@ public class Room {
 				Loot currentLoot = roomLoot[i];
 				if  (currentLoot instanceof Weapon) currentLoot = (Weapon)currentLoot;
 				if  (currentLoot instanceof Consumable)currentLoot = (Consumable)currentLoot;
-				if  (currentLoot instanceof Ability) currentLoot = (Ability)currentLoot;
 				if  (currentLoot instanceof Upgrade) currentLoot = (Upgrade)currentLoot;
 				if  (currentLoot instanceof Armour) currentLoot = (Armour)currentLoot;
 

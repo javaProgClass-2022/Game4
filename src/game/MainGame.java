@@ -141,7 +141,7 @@ public class MainGame {
 		g2.drawString(""+player.critChance, 485, 170);
 		g2.drawString(""+player.playerWeapon.atkDmg, 485, 200);
 
-		g2.setFont(new Font("Courier New", Font.BOLD, 17));
+		g2.setFont(new Font("Courier New", Font.BOLD, 16));
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.drawLine(475, 100, 475, 205);
@@ -222,7 +222,7 @@ public class MainGame {
 		if (currCommand[0].equalsIgnoreCase("help")) {
 			displayDialogue="-move- move to room up/down/left/right        "
 					+ "-consume *item name*    -take *item/weapon name* "
-					+ "-cast *ability name*    -status- show self info "
+					+ "-status- show self info "
 					+ "-investigate- display current room status";
 		}if (currCommand[0].equalsIgnoreCase("inventory")) {
 			displayDialogue="Inventory-  ";

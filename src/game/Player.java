@@ -6,9 +6,7 @@ import java.util.HashMap;
 
 public class Player {
 	//Player Stats
-//	int weight;
 	int hp;
-//	int speed;
 	int def;
 	int atkBoost;
 	int critChance;
@@ -18,15 +16,14 @@ public class Player {
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();
 	Armour playerArmour;
 	Weapon playerWeapon;
-	Ability playerAbility;
 
 	Player(){
 		hp = 100;
-//		speed = 100;
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
 		playerWeapon = new Weapon("default");
+		playerArmour = new Armour("default");
 	}
 
 
@@ -47,30 +44,25 @@ public class Player {
 			dmg *= (int) critDmg;
 			MainGame.displayDialogue = ("Critical Hit!");
 		}
+		
+		//Checking if the weapon hits
+		int accurceyRandomizer = (int) ((Math.random()*100)+1);	
+		if (accurceyRandomizer >= playerWeapon.accuracy) {
+			dmg = 0;
+			MainGame.displayDialogue = ("You Missed!");
+		}
 		return dmg;
 	}
 
-	//Note Abilities are Armour piercing
-	void useAbility(Enemy target) {
-		if (playerAbility.cooldownRoomAmt <= playerAbility.roomsSinceUse) {
-			hp += playerAbility.hpGain;
-			target.takeDmg(playerAbility.atkDmg);
-			playerAbility.roomsSinceUse = 0;
-			MainGame.displayDialogue = ("You healed " + playerAbility.hpGain +" Health" );
-		}
-		else {MainGame.displayDialogue = ("Ability is not off cooldown");}
-	}
-
-
 	void useItem(Consumable item) {
 		hp += item.hpGain;
+		if (hp > 100) hp = 100;
 		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + item.hpGain + " HP";
 	}
 
 
 	void pickupUpgrade (Upgrade up ) {
 		def+=up.defenseUp;
-//		speed += up.speedUp;
 		critChance += up.critChanceUp;
 		critDmg += up.critDmgUp;
 		MainGame.displayDialogue = ("Random Stat Upgraded");
@@ -87,17 +79,9 @@ public class Player {
 		playerWeapon = weapon;
 		MainGame.displayDialogue = (weapon.name + " equiped");
 	}
-	
-	void pickUpConsumable(Consumable food) {
-		inventory.put(food.name, food);
-		MainGame.displayDialogue = (food.name + " added to inventory");
-	}
-
 
 	void pickUpConsumable(Consumable food) {
 		inventory.put(food.name, food);
 		MainGame.displayDialogue = (food.name + " added to inventory");
 	}
-
-
 }
