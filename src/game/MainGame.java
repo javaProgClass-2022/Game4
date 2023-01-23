@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
 
 //TODO make command not case-sensitive
 
+//Loiusa's branch
 
 public class MainGame {
 	//inner class
