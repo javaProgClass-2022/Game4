@@ -5,10 +5,9 @@ package game;
 import java.util.HashMap;
 
 public class Player {
-	//Player Stats
-	int weight;
+//	int weight;
 	int hp;
-	int speed;
+//	int speed;
 	int def;
 	int atkBoost;
 	int critChance;
@@ -22,7 +21,7 @@ public class Player {
 
 	Player(){
 		hp = 100;
-		speed = 100;
+//		speed = 100;
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
@@ -70,7 +69,7 @@ public class Player {
 
 	void pickupUpgrade (Upgrade up ) {
 		def+=up.defenseUp;
-		speed += up.speedUp;
+//		speed += up.speedUp;
 		critChance += up.critChanceUp;
 		critDmg += up.critDmgUp;
 		MainGame.displayDialogue = ("Random Stat Upgraded");
@@ -79,15 +78,15 @@ public class Player {
 
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
-		weight = playerArmour.weight + playerWeapon.weight;
 		MainGame.displayDialogue = (armour.name + " equiped");
+//		weight = playerArmour.weight + playerWeapon.weight;
 	}
 
 
 	void pickUpWeapon(Weapon weapon) {
 		playerWeapon = weapon;
-		weight = playerArmour.weight + playerWeapon.weight;
 		MainGame.displayDialogue = (weapon.name + " equiped");
+//		weight = playerArmour.weight + playerWeapon.weight;
 	}
 	
 	void pickUpConsumable(Consumable food) {

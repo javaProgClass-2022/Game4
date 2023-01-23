@@ -62,10 +62,28 @@ public class MainGame {
 				commandBox.setText("");
 
 
-				for (String s:adj) {
-					if (s.equals(currCommand[0])) run();
+				if (currCommand.length==2) {
+					for (String s:functionTrigger) {
+						System.out.println(s.equalsIgnoreCase(currCommand[0]));
+						if (s.equalsIgnoreCase(currCommand[0])) {
+							handelCommand();
+							break;
+						}
+						else {
+							displayDialogue="command unreconized. please try again";
+						}
+					}
+				}else {
+					for (String s:menuTrigger) {
+						if (s.equalsIgnoreCase(currCommand[0])) {
+							menuCommand();
+							break;
+						}
+						else {
+							displayDialogue="command unreconized. please try again";
+						}
+					}
 				}
-
 
 			}
 		}
@@ -85,8 +103,8 @@ public class MainGame {
 
 		commandBox.setFont(new Font("Bradley Hand",Font.PLAIN,15));
 		commandBox.setMargin(new Insets(10,10,10,10));
-		
-		
+
+
 		dPanel.add(commandBox);
 
 		//		
@@ -110,67 +128,67 @@ public class MainGame {
 		g2.drawString("character stats", 400, 65);
 
 		g2.drawLine(390, 80, 560, 80);
-		
+
 		g2.drawString("hp", 445, 110);
 		g2.drawString("def", 435, 140);
-		g2.drawString("speed", 415, 170);
+		g2.drawString("crit%", 415, 170);
 		g2.drawString("dmg", 435, 200);
-		
-		
+
+
 		g2.setFont(new Font("Bradley Hand",Font.BOLD,17));
 		g2.drawString(""+player.hp, 485, 110);
 		g2.drawString(""+player.def, 485, 140);
-		g2.drawString(""+player.speed, 485, 170);
+		g2.drawString(""+player.critChance, 485, 170);
 		g2.drawString(""+player.playerWeapon.atkDmg, 485, 200);
-		
+
 		g2.setFont(new Font("Courier New", Font.BOLD, 17));
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.drawLine(475, 100, 475, 205);
 		g2.drawLine(430, 225, 520, 225);
-		
+
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.WHITE);
-		
+
 		g2.drawString("help", 455, 255);
 		g2.drawString("inventory", 430, 285);
 		g2.drawString("achievements", 415, 315);
 		g2.drawString("staff", 450, 345);
 
 	}
-	
+
 	void printConsole(Graphics2D g2) {
 		g2.setColor(Color.darkGray);
-		g2.drawString("0---------1---------2---------3---------4------7", 60, 455);
-		g2.drawString("0---------1---------2---------3---------4------7", 60, 480);
-		g2.drawString("0---------1---------2---------3---------4------7", 60, 505);
-		g2.drawString("0---------1---------2---------3---------4------7", 60, 530);
-		
+		g2.drawString("---------1---------2---------3---------4-------8", 60, 455);
+		g2.drawString("---------1---------2---------3---------4-------8", 60, 480);
+		g2.drawString("---------1---------2---------3---------4-------8", 60, 505);
+		g2.drawString("---------1---------2---------3---------4-------8", 60, 530);
+
 		g2.setColor(Color.WHITE);
-		
-//		String testing="this is a very long line of random english words that i came up with to test out what ever i am supposed to do. ";
-		
+
+		//		String testing="this is a very long line of random english words that i came up with to test out what ever i am supposed to do. ";
+
 		int locX=60;
 		int locY=455;
 		int lineH=25;
-		
+
 		//one extra spot for spaces added
 		int maxChar=48;
 		int charCount=0;
 		String line = "";
 		String[] splitLine=displayDialogue.split(" ");
-		
+
 		for (String word:splitLine) {
 			charCount+=word.length();
-//			System.out.println(charCount);
+			//			System.out.println(charCount);
 			if (charCount<=maxChar) {
 				line+=(word+" ");
-				
+
 				//add the space to count
 				charCount+=1;
-				
+
 			}else {
-//				System.out.println(line);
+				//				System.out.println(line);
 				g2.drawString(line, locX, locY);
 				line=word+" ";
 				locY+=lineH;
@@ -178,23 +196,50 @@ public class MainGame {
 			}
 		}
 		g2.drawString(line, locX, locY);
-		
-	}
-
-	void run() {
-		//		drawBorder(null);
-		dPanel.repaint();
-		handelCommand();
 
 	}
+
+//		void run() {
+//			//		drawBorder(null);
+//			dPanel.repaint();
+//			handelCommand();
+//	
+//		}
 
 	void handelCommand() {
+		dPanel.repaint();
 		//find corrisponding command
-		if (currCommand[0].equals("consume")) {
+//		System.out.println(currCommand.length);
+		if (currCommand[0].equalsIgnoreCase("consume")) {
 			consume(currCommand[1]);
 		}
+
+
 	}
 
+	void menuCommand() {
+		dPanel.repaint();
+		if (currCommand[0].equalsIgnoreCase("help")) {
+			displayDialogue="-move- move to room up/down/left/right        "
+					+ "-consume *item name*    -take *item/weapon name* "
+					+ "-cast *ability name*    -status- show self info "
+					+ "-investigate- display current room status";
+		}if (currCommand[0].equalsIgnoreCase("inventory")) {
+			displayDialogue="Inventory-  ";
+			if(player.inventory.size()==0)displayDialogue+="empty";
+			else {
+				for(String k:player.inventory.keySet()) {
+					displayDialogue=displayDialogue+k+", ";
+				}
+			}
+		}if (currCommand[0].equalsIgnoreCase("status")) {
+			displayDialogue="";
+		}if (currCommand[0].equalsIgnoreCase("")) {
+			
+		}
+		
+
+	}
 
 	void consume(String item) {
 		//if the name of the item exist in player inventory
@@ -205,7 +250,7 @@ public class MainGame {
 	}
 
 	void attack(String name) {
-//		if ()
+		//		if ()
 	}
 
 	//global
@@ -219,8 +264,9 @@ public class MainGame {
 
 	//TODO relink to use room in map
 	Room currRoom=new Room();
-	
-	String[] adj={"consume"};
+
+	String[] functionTrigger={"move","consume","take","cast","investigate"};
+	String[] menuTrigger={"help","inventory","status","achievement","staff"};
 	String[] currCommand;
 	static String displayDialogue="";
 
@@ -246,14 +292,14 @@ public class MainGame {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
-//			@Override
+
+			//			@Override
 			public void run() {
 				new MainGame();
-				
+
 			}
 		});
-		
+
 	}
 }
 
