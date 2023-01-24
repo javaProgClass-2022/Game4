@@ -8,8 +8,8 @@ public class Room {
 	int lootAmt;
 	int deadEnemyCounter;
 	boolean explored;
-	boolean spawnRoom;
 	boolean ladder;
+	boolean currentRoom;
 
 	Enemy enemies[];
 	Loot roomLoot[];
@@ -17,7 +17,6 @@ public class Room {
 	Room(){
 		explored = false;
 		ladder = false;
-		spawnRoom = false;	
 
 
 		//Adding the Enemies

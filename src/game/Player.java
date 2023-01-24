@@ -27,6 +27,7 @@ public class Player {
 		critChance = 10;
 		critDmg = 1.5;
 		playerWeapon = new Weapon("default");
+		playerArmour = new Armour("default");
 	}
 
 
@@ -88,12 +89,6 @@ public class Player {
 		MainGame.displayDialogue = (weapon.name + " equiped");
 	}
 	
-	void pickUpConsumable(Consumable food) {
-		inventory.put(food.name, food);
-		MainGame.displayDialogue = (food.name + " added to inventory");
-	}
-
-
 	void pickUpConsumable(Consumable food) {
 		inventory.put(food.name, food);
 		MainGame.displayDialogue = (food.name + " added to inventory");

@@ -28,7 +28,7 @@ import javax.swing.SwingUtilities;
 public class MainGame {
 	//inner class
 	class DrawingPanel extends JPanel {
-		
+
 		DrawingPanel() {
 			this.setBackground(Color.BLACK);
 			this.setPreferredSize(new Dimension(PANW,PANH));  //remember that the JPanel size is more accurate than JFrame.
@@ -44,11 +44,12 @@ public class MainGame {
 			g2.setColor(Color.white);
 			printBoard(g2);
 			printConsole(g2);
+			printMap(g2);
 		}
 	}
 
 	class KL implements KeyListener{
-		
+
 		public void keyTyped(KeyEvent e) {}
 		public void keyPressed(KeyEvent e) {}
 
@@ -139,7 +140,7 @@ public class MainGame {
 		g2.drawString(""+player.hp, 485, 110);
 		g2.drawString(""+player.def, 485, 140);
 		g2.drawString(""+player.critChance, 485, 170);
-		g2.drawString(""+player.playerWeapon.atkDmg, 485, 200);
+		g2.drawString(""+player.playerWeapon.atkDmg+player.atkBoost, 485, 200);
 
 		g2.setFont(new Font("Courier New", Font.BOLD, 17));
 		g2.setStroke(new BasicStroke(1));
@@ -199,21 +200,55 @@ public class MainGame {
 
 	}
 
-//		void run() {
-//			//		drawBorder(null);
-//			dPanel.repaint();
-//			handelCommand();
-//	
-//		}
+	void printMap(Graphics2D g2) {
 
+		int roomSize=40;
+		//		g2.drawRect(40, 40, 325, 330);
+
+		//left corner 62,62
+		//40px wide
+
+		for (int i=0;i<Maps.size;i++) {
+			for (int j=0;j<Maps.size;j++) {
+				if (map[i][j]!=null) {
+					if(map[i][j].explored) {
+						g2.setColor(Color.DARK_GRAY.brighter());
+						g2.fillRect(62+j*roomSize, 62+i*roomSize, roomSize, roomSize);
+						g2.setColor(Color.WHITE);
+						g2.drawRect(62+j*roomSize, 62+i*roomSize, roomSize, roomSize);
+						if (map[i][j].currentRoom) {
+							g2.drawOval(72+j*roomSize, 72+i*roomSize, 20, 20);
+							g2.fillOval(77+j*roomSize, 77+i*roomSize, 10, 10);
+							currRoomLocation[0]=i;
+							currRoomLocation[1]=j;
+						}
+					}else{
+						g2.setColor(Color.LIGHT_GRAY);
+						g2.fillRect(62+j*roomSize, 62+i*roomSize, roomSize, roomSize);
+						g2.setColor(Color.WHITE);
+						g2.drawRect(62+j*roomSize, 62+i*roomSize, roomSize, roomSize);
+					}
+				}
+			}
+		}
+
+	}
+
+	
 	void handelCommand() {
-		dPanel.repaint();
+		
 		//find corrisponding command
-//		System.out.println(currCommand.length);
+		//		System.out.println(currCommand.length);
 		if (currCommand[0].equalsIgnoreCase("consume")) {
 			consume(currCommand[1]);
 		}
-
+		if (currCommand[0].equalsIgnoreCase("move")) {
+			move(currCommand[1]);
+		}
+		if (currCommand[0].equalsIgnoreCase("attack")) {
+			attack(currCommand[1]);
+		}
+		dPanel.repaint();
 
 	}
 
@@ -222,8 +257,8 @@ public class MainGame {
 		if (currCommand[0].equalsIgnoreCase("help")) {
 			displayDialogue="-move- move to room up/down/left/right        "
 					+ "-consume *item name*    -take *item/weapon name* "
-					+ "-cast *ability name*    -status- show self info "
-					+ "-investigate- display current room status";
+					+ "-cast *ability name*    -attack *enemy name* "
+					+ "-investigate- see room  -status- show self info ";
 		}if (currCommand[0].equalsIgnoreCase("inventory")) {
 			displayDialogue="Inventory-  ";
 			if(player.inventory.size()==0)displayDialogue+="empty";
@@ -231,15 +266,22 @@ public class MainGame {
 				for(String k:player.inventory.keySet()) {
 					displayDialogue=displayDialogue+k+", ";
 				}
+				displayDialogue=displayDialogue.substring(0,displayDialogue.length()-2);
 			}
 		}if (currCommand[0].equalsIgnoreCase("status")) {
-			displayDialogue="";
+			displayDialogue="armour-  "+ player.playerArmour.name;
+			for (int i=(9+player.playerArmour.name.length());i<48;i++) {
+				displayDialogue+=" ";
+			}
+			displayDialogue=displayDialogue+"weapon-  "+ player.playerWeapon.name;
 		}if (currCommand[0].equalsIgnoreCase("")) {
-			
+
 		}
-		
+
 
 	}
+
+
 
 	void consume(String item) {
 		//if the name of the item exist in player inventory
@@ -249,8 +291,41 @@ public class MainGame {
 
 	}
 
+	void move(String direction) {
+		//check if room exist on direction
+		
+		int i=currRoomLocation[0];
+		int j=currRoomLocation[1];
+
+		if(direction.equalsIgnoreCase("up")) i-=1;
+		if(direction.equalsIgnoreCase("right"))j+=1;
+		if(direction.equalsIgnoreCase("down"))i+=1;
+		if(direction.equalsIgnoreCase("left"))j-=1;
+		
+		
+		if (i<0 || j<0 || i>map.length || j>map.length) {
+			//if out of bounds
+			displayDialogue="no room exist on requested direction";
+		}else if (map[i][j]==null) {
+			//if no room exist
+			displayDialogue="no room exist on requested direction";
+		}else {
+			displayDialogue="you moved to another room";
+			
+			map[currRoomLocation[0]][currRoomLocation[1]].currentRoom=false;
+			map[i][j].currentRoom=true;
+			map[i][j].explored=true;
+			currRoomLocation[0]=i;
+			currRoomLocation[1]=j;
+		}
+		
+
+	}
+	
 	void attack(String name) {
-		//		if ()
+		Room room=map[currRoomLocation[0]][currRoomLocation[1]];
+		
+		
 	}
 
 	//global
@@ -263,12 +338,14 @@ public class MainGame {
 	static int floor = 1;
 
 	//TODO relink to use room in map
-	Room currRoom=new Room();
+	int[] currRoomLocation=new int[2];
 
-	String[] functionTrigger={"move","consume","take","cast","investigate"};
+	String[] functionTrigger={"move","consume","take","attack","cast","investigate"};
 	String[] menuTrigger={"help","inventory","status","achievement","staff"};
 	String[] currCommand;
 	static String displayDialogue="";
+
+	Room[][] map=new Maps().convertMap();
 
 
 
@@ -284,8 +361,6 @@ public class MainGame {
 		//
 		//
 		System.out.println(player.inventory);
-		//		System.out.println(player.hp);
-		//		handelCommand();
 		dPanel.setLayout(null);
 		panelFrameSetup();
 	}
