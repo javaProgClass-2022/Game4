@@ -5,6 +5,7 @@ package game;
 abstract class Loot {
 	static int currentId = 0;
 	int id;
+	String name;
 
 	Loot(){
 		id = currentId+1;

@@ -26,7 +26,9 @@ public class Enemy {
 	void takeDmg(int dmg){
 		hp =-dmg;
 		if (hp > 0) MainGame.displayDialogue = ("The " + name + " took " + dmg + " damage" );
-		else MainGame.displayDialogue = ("The " + name + " has been slain");
+		else {
+			MainGame.displayDialogue = ("The " + name + " has been slain");
+		}
 	}
 }
 

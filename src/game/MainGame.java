@@ -56,36 +56,34 @@ public class MainGame {
 		@Override
 		public void keyReleased(KeyEvent e) {
 
-			//			System.out.println(e.getKeyCode());
 			if (e.getKeyCode()==10) {
 				//return command line and empty input box
 				currCommand=commandBox.getText().trim().split(" ",2);
 				commandBox.setText("");
 
+				boolean functional=false;
 
 				if (currCommand.length==2) {
 					for (String s:functionTrigger) {
-						System.out.println(s.equalsIgnoreCase(currCommand[0]));
 						if (s.equalsIgnoreCase(currCommand[0])) {
 							handelCommand();
+							functional=true;
 							break;
-						}
-						else {
-							displayDialogue="command unreconized. please try again";
 						}
 					}
 				}else {
 					for (String s:menuTrigger) {
 						if (s.equalsIgnoreCase(currCommand[0])) {
 							menuCommand();
+							functional=true;
 							break;
-						}
-						else {
-							displayDialogue="command unreconized. please try again";
 						}
 					}
 				}
-
+				if(!functional) {
+					displayDialogue="command unreconized. please try again";
+					dPanel.repaint();
+				}
 			}
 		}
 
@@ -181,7 +179,6 @@ public class MainGame {
 
 		for (String word:splitLine) {
 			charCount+=word.length();
-			//			System.out.println(charCount);
 			if (charCount<=maxChar) {
 				line+=(word+" ");
 
@@ -189,7 +186,6 @@ public class MainGame {
 				charCount+=1;
 
 			}else {
-				//				System.out.println(line);
 				g2.drawString(line, locX, locY);
 				line=word+" ";
 				locY+=lineH;
@@ -234,11 +230,10 @@ public class MainGame {
 
 	}
 
-	
+
 	void handelCommand() {
-		
+
 		//find corrisponding command
-		//		System.out.println(currCommand.length);
 		if (currCommand[0].equalsIgnoreCase("consume")) {
 			consume(currCommand[1]);
 		}
@@ -253,13 +248,13 @@ public class MainGame {
 	}
 
 	void menuCommand() {
-		dPanel.repaint();
 		if (currCommand[0].equalsIgnoreCase("help")) {
 			displayDialogue="-move- move to room up/down/left/right        "
 					+ "-consume *item name*    -take *item/weapon name* "
 					+ "-cast *ability name*    -attack *enemy name* "
-					+ "-investigate- see room  -status- show self info ";
-		}if (currCommand[0].equalsIgnoreCase("inventory")) {
+					+ "-investigate- display loot if no enemie exist";
+		}
+		if (currCommand[0].equalsIgnoreCase("inventory")) {
 			displayDialogue="Inventory-  ";
 			if(player.inventory.size()==0)displayDialogue+="empty";
 			else {
@@ -268,15 +263,19 @@ public class MainGame {
 				}
 				displayDialogue=displayDialogue.substring(0,displayDialogue.length()-2);
 			}
-		}if (currCommand[0].equalsIgnoreCase("status")) {
+		}
+		if (currCommand[0].equalsIgnoreCase("status")) {
 			displayDialogue="armour-  "+ player.playerArmour.name;
 			for (int i=(9+player.playerArmour.name.length());i<48;i++) {
 				displayDialogue+=" ";
 			}
 			displayDialogue=displayDialogue+"weapon-  "+ player.playerWeapon.name;
-		}if (currCommand[0].equalsIgnoreCase("")) {
-
 		}
+		if (currCommand[0].equalsIgnoreCase("investigate")) {
+			investigate();
+		}
+
+		dPanel.repaint();
 
 
 	}
@@ -293,7 +292,7 @@ public class MainGame {
 
 	void move(String direction) {
 		//check if room exist on direction
-		
+
 		int i=currRoomLocation[0];
 		int j=currRoomLocation[1];
 
@@ -301,8 +300,8 @@ public class MainGame {
 		if(direction.equalsIgnoreCase("right"))j+=1;
 		if(direction.equalsIgnoreCase("down"))i+=1;
 		if(direction.equalsIgnoreCase("left"))j-=1;
-		
-		
+
+
 		if (i<0 || j<0 || i>map.length || j>map.length) {
 			//if out of bounds
 			displayDialogue="no room exist on requested direction";
@@ -311,21 +310,33 @@ public class MainGame {
 			displayDialogue="no room exist on requested direction";
 		}else {
 			displayDialogue="you moved to another room";
-			
+
 			map[currRoomLocation[0]][currRoomLocation[1]].currentRoom=false;
 			map[i][j].currentRoom=true;
 			map[i][j].explored=true;
 			currRoomLocation[0]=i;
 			currRoomLocation[1]=j;
 		}
-		
+
 
 	}
-	
+
 	void attack(String name) {
-		Room room=map[currRoomLocation[0]][currRoomLocation[1]];
+
+		if (map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt>0) {
+			for (Enemy n:map[currRoomLocation[0]][currRoomLocation[1]].enemies) {
+				if (n!=null && name.equalsIgnoreCase(n.name)) {
+					n.takeDmg(player.dealWeaponDmg());
+					map[currRoomLocation[0]][currRoomLocation[1]].checkStatus();
+				}
+			}
+		}
 		
-		
+	}
+
+	void investigate() {
+		map[currRoomLocation[0]][currRoomLocation[1]].look();
+		//		System.out.println(map[currRoomLocation[0]][currRoomLocation[1]].enemies.length);;
 	}
 
 	//global
@@ -340,12 +351,12 @@ public class MainGame {
 	//TODO relink to use room in map
 	int[] currRoomLocation=new int[2];
 
-	String[] functionTrigger={"move","consume","take","attack","cast","investigate"};
-	String[] menuTrigger={"help","inventory","status","achievement","staff"};
+	String[] functionTrigger={"move","consume","attack","take","cast"};
+	String[] menuTrigger={"help","inventory","status","achievement","staff","investigate"};
 	String[] currCommand;
 	static String displayDialogue="";
 
-	Room[][] map=new Maps().convertMap();
+	static Room[][] map=new Maps().convertMap();
 
 
 
@@ -358,22 +369,13 @@ public class MainGame {
 		player.inventory.put(c1.name, c1);
 		player.inventory.put(c2.name, c2);
 		player.inventory.put(c3.name, c3);
-		//
-		//
-		System.out.println(player.inventory);
+
 		dPanel.setLayout(null);
 		panelFrameSetup();
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			//			@Override
-			public void run() {
-				new MainGame();
-
-			}
-		});
+		new MainGame();
 
 	}
 }
