@@ -216,16 +216,16 @@ public class MainGame {
 							//if player is currently in ladder room
 							g2.fillRect(69+j*roomSize, 72+i*roomSize, 2, 20);
 							g2.fillRect(78+j*roomSize, 72+i*roomSize, 2, 20);
-							
+
 							g2.fillRect(69+j*roomSize, 76+i*roomSize, 9, 2);
 							g2.fillRect(69+j*roomSize, 81+i*roomSize, 9, 2);
 							g2.fillRect(69+j*roomSize, 86+i*roomSize, 9, 2);
-							
+
 							g2.drawOval(84+j*roomSize, 77+i*roomSize, 12, 12);
 							g2.fillOval(87+j*roomSize, 80+i*roomSize, 6, 6);
 							currRoomLocation[0]=i;
 							currRoomLocation[1]=j;
-							
+
 						}else if (map[i][j].currentRoom) {
 							g2.drawOval(72+j*roomSize, 72+i*roomSize, 20, 20);
 							g2.fillOval(77+j*roomSize, 77+i*roomSize, 10, 10);
@@ -235,12 +235,12 @@ public class MainGame {
 							g2.setColor(Color.LIGHT_GRAY);
 							g2.fillRect(75+j*roomSize, 72+i*roomSize, 2, 20);
 							g2.fillRect(87+j*roomSize, 72+i*roomSize, 2, 20);
-							
+
 							g2.fillRect(75+j*roomSize, 76+i*roomSize, 12, 2);
 							g2.fillRect(75+j*roomSize, 81+i*roomSize, 12, 2);
 							g2.fillRect(75+j*roomSize, 86+i*roomSize, 12, 2);
-							currRoomLocation[0]=i;
-							currRoomLocation[1]=j;
+//							currRoomLocation[0]=i;
+//							currRoomLocation[1]=j;
 						}
 					}else{
 						g2.setColor(Color.LIGHT_GRAY);
@@ -266,6 +266,9 @@ public class MainGame {
 		}
 		if (currCommand[0].equalsIgnoreCase("attack")) {
 			attack(currCommand[1]);
+		}
+		if (currCommand[0].equalsIgnoreCase("climb")) {
+			climb(currCommand[1]);
 		}
 		dPanel.repaint();
 
@@ -336,10 +339,18 @@ public class MainGame {
 			displayDialogue="you moved to another room";
 
 			map[currRoomLocation[0]][currRoomLocation[1]].currentRoom=false;
-			map[i][j].currentRoom=true;
-			map[i][j].explored=true;
+			System.out.print("moved from "+(currRoomLocation[0]+1)+" "+(currRoomLocation[1]+1));
 			currRoomLocation[0]=i;
 			currRoomLocation[1]=j;
+			
+			map[currRoomLocation[0]][currRoomLocation[1]].currentRoom=true;
+			map[currRoomLocation[0]][currRoomLocation[1]].explored=true;
+
+			System.out.println("  to  "+(i+1)+" "+(j+1));
+//			currRoomLocation[0]=i;
+//			currRoomLocation[1]=j;
+			System.out.print("   ladder - "+map[i][j].ladder);
+			System.out.println("   ladder - "+map[currRoomLocation[0]][currRoomLocation[1]].ladder);
 		}
 
 
@@ -355,8 +366,24 @@ public class MainGame {
 				}
 			}
 		}
-		
+
 	}
+
+	void climb(String ladder) {
+		if (ladder.equalsIgnoreCase("ladder")||ladder.equalsIgnoreCase("down")) {
+			if (map[currRoomLocation[0]][currRoomLocation[1]].ladder) {
+				System.out.println("ladder - "+map[currRoomLocation[0]][currRoomLocation[1]].ladder);
+				
+				System.out.println("went down at  "+(currRoomLocation[0]+1)+" "+(currRoomLocation[1]+1));
+				System.out.println();
+				floor+=1;
+				map= new Maps().convertMap();
+			}else {
+				displayDialogue="there is nothing to climb in this room";
+			}
+		}
+	}
+
 
 	void investigate() {
 		map[currRoomLocation[0]][currRoomLocation[1]].look();
@@ -372,14 +399,15 @@ public class MainGame {
 	Player player=new Player();
 	static int floor = 1;
 
-	//TODO relink to use room in map
+	
 	int[] currRoomLocation=new int[2];
 
-	String[] functionTrigger={"move","consume","attack","take","cast"};
+	String[] functionTrigger={"move","consume","attack","take","cast","climb"};
 	String[] menuTrigger={"help","inventory","status","achievement","staff","investigate"};
 	String[] currCommand;
 	static String displayDialogue="";
 
+	//	static Room[][] map=new Maps().convertMap();
 	static Room[][] map=new Maps().convertMap();
 
 

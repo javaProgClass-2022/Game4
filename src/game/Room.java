@@ -20,8 +20,8 @@ public class Room {
 
 
 		//Adding the Enemies
-//		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
-		enemyAmt=1;
+		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
+		
 		if (enemyAmt>15) enemyAmt=15;
 		
 		enemies = new Enemy[enemyAmt];

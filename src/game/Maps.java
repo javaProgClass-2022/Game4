@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Point;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.SwingUtilities;
@@ -31,6 +32,7 @@ public class Maps {
 		generated.add(center);
 		
 		check();
+//		printMap();
 	}
 
 	void check() {
@@ -135,16 +137,20 @@ public class Maps {
 	}
 //	
 //	void printMap() {
+////		for (int row = 0; row < size; row++) {
+////			for (int col = 0; col < size; col++) {
+////				if(mapp[row][col]==VISITED) {
+////					mapp[row][col]=EMPTY;
+////				}
+////			}
+////			System.out.println();
+////
+////		}
+////		System.out.println("Roomcount = "+roomCount);
+////		System.out.println();
 //		for (int row = 0; row < size; row++) {
-//			for (int col = 0; col < size; col++) {
-//				if(mapp[row][col]==VISITED) {
-//					mapp[row][col]=EMPTY;
-//				}
-//			}
-//			System.out.println();
-//
+//			System.out.println(Arrays.toString(mapp[row]));
 //		}
-//		System.out.println("Roomcount = "+roomCount);
 //		System.out.println();
 //	}
 	
@@ -162,11 +168,11 @@ public class Maps {
 					if(!ladderSpawned && (int)(Math.random()*randomRoomsNums+1)==1) {
 						map[i][j].ladder=true;
 						ladderSpawned=true;
-						System.out.println("ladder room at  "+i+"  "+j);
+						System.out.println("ladder room at  "+(i+1)+"  "+(j+1));
 					}
 					if(!ladderSpawned && count==randomRoomsNums) {
 						map[i][j].ladder=true;
-						System.out.println("ladder room at  "+ i+"  "+j);
+						System.out.println("ladder room at  "+ (i+1)+"  "+(j+1));
 					}
 					
 				}
