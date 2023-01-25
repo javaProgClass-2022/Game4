@@ -55,8 +55,20 @@ public class Room {
 	//Method that lets the player look around the room
 	void look(){
 		String display = "";
+		
+		// if there are enemies display them
+		if (enemyAmt!=0) {
+			display = ("The room countains the following enemies:       "); //Each line contains 48 characters so to display the text better we add spaces
+			
+			
+			for (Enemy e:enemies) {
+				if (e!=null)display = display+e.name+", ";
+			}
+			display=display.substring(0,display.length()-2);//remove ending , 
+		}
+		
 		//If there are no enemies display the loot in the room
-		if (enemyAmt==0) {
+		if (enemyAmt==0 && lootAmt!=0) {
 			display = ("The room countains the following loot:         "); //Each line contains 48 characters so to display the text better we add spaces
 			for (int i = 0; i < lootAmt; i++) {
 				Loot currentLoot = roomLoot[i];
@@ -67,23 +79,13 @@ public class Room {
 				if  (currentLoot instanceof Armour) currentLoot = (Armour)currentLoot;
 
 //				System.out.println(currentLoot.);
-				display = display+ currentLoot.toString()+", ";
-//				display += (48 - currentLoot.toString().length()); //Adding the extra characters to go  to the next line
+				display = (display+ currentLoot.toString()+", ");
 			}
-			display=display.substring(0,display.length()-2);
+			display=display.substring(0,display.length()-2);//remove ending , 
 		}
 
-		//If there are enemies display them
-		if (enemyAmt!=0) {
-			display = ("The room countains the following enemies:       "); //Each line contains 48 characters so to display the text better we add spaces
-			
-			
-			for (Enemy e:enemies) {
-				if (e!=null)display = display+e.name+", ";
-//				display += (48 - enemies[i].toString().length()); //Adding the extra characters to go  to the next line
-			}
-		}
-		display=display.substring(0,display.length()-2);//remove ending , 
+		if (enemyAmt==0 && lootAmt==0) display="the room is empty";
+		
 		MainGame.displayDialogue = (display);
 	}
 }

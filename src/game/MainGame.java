@@ -56,9 +56,15 @@ public class MainGame {
 		@Override
 		public void keyReleased(KeyEvent e) {
 
+			if (e.getKeyCode()==38) {
+				commandBox.setText(lastCommand);
+			}
+
 			if (e.getKeyCode()==10) {
 				//return command line and empty input box
 				currCommand=commandBox.getText().trim().split(" ",2);
+
+				lastCommand=commandBox.getText().trim();
 				commandBox.setText("");
 
 				boolean functional=false;
@@ -199,10 +205,7 @@ public class MainGame {
 	void printMap(Graphics2D g2) {
 
 		int roomSize=40;
-		//		g2.drawRect(40, 40, 325, 330);
-
-		//left corner 62,62
-		//40px wide
+		//each room displays 40px wide
 
 		for (int i=0;i<Maps.size;i++) {
 			for (int j=0;j<Maps.size;j++) {
@@ -239,8 +242,8 @@ public class MainGame {
 							g2.fillRect(75+j*roomSize, 76+i*roomSize, 12, 2);
 							g2.fillRect(75+j*roomSize, 81+i*roomSize, 12, 2);
 							g2.fillRect(75+j*roomSize, 86+i*roomSize, 12, 2);
-//							currRoomLocation[0]=i;
-//							currRoomLocation[1]=j;
+							//							currRoomLocation[0]=i;
+							//							currRoomLocation[1]=j;
 						}
 					}else{
 						g2.setColor(Color.LIGHT_GRAY);
@@ -269,6 +272,9 @@ public class MainGame {
 		}
 		if (currCommand[0].equalsIgnoreCase("climb")) {
 			climb(currCommand[1]);
+		}
+		if (currCommand[0].equalsIgnoreCase("take")) {
+			take(currCommand[1]);
 		}
 		dPanel.repaint();
 
@@ -339,18 +345,13 @@ public class MainGame {
 			displayDialogue="you moved to another room";
 
 			map[currRoomLocation[0]][currRoomLocation[1]].currentRoom=false;
-			System.out.print("moved from "+(currRoomLocation[0]+1)+" "+(currRoomLocation[1]+1));
+
 			currRoomLocation[0]=i;
 			currRoomLocation[1]=j;
-			
+
 			map[currRoomLocation[0]][currRoomLocation[1]].currentRoom=true;
 			map[currRoomLocation[0]][currRoomLocation[1]].explored=true;
 
-			System.out.println("  to  "+(i+1)+" "+(j+1));
-//			currRoomLocation[0]=i;
-//			currRoomLocation[1]=j;
-			System.out.print("   ladder - "+map[i][j].ladder);
-			System.out.println("   ladder - "+map[currRoomLocation[0]][currRoomLocation[1]].ladder);
 		}
 
 
@@ -371,16 +372,44 @@ public class MainGame {
 
 	void climb(String ladder) {
 		if (ladder.equalsIgnoreCase("ladder")||ladder.equalsIgnoreCase("down")) {
+
 			if (map[currRoomLocation[0]][currRoomLocation[1]].ladder) {
-				System.out.println("ladder - "+map[currRoomLocation[0]][currRoomLocation[1]].ladder);
-				
-				System.out.println("went down at  "+(currRoomLocation[0]+1)+" "+(currRoomLocation[1]+1));
-				System.out.println();
-				floor+=1;
-				map= new Maps().convertMap();
+				if(map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt==0) {
+					floor+=1;
+					map= new Maps().convertMap();
+				}else {
+					displayDialogue="the ladder is guarded by monsters";
+				}
+
 			}else {
 				displayDialogue="there is nothing to climb in this room";
 			}
+
+
+		}
+	}
+
+	void take(String item) {
+		if (map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt==0) {
+			for(int i=0;i<map[currRoomLocation[0]][currRoomLocation[1]].lootAmt;i++) {
+				
+				Loot l=map[currRoomLocation[0]][currRoomLocation[1]].roomLoot[i];
+				if (item.equalsIgnoreCase(l.toString())) {//if item is a loot in room
+					if (l instanceof Weapon) player.pickUpWeapon((Weapon)l);;
+					if (l instanceof Consumable) player.pickUpConsumable((Consumable)l);
+					if (l instanceof Ability)player.playerAbility=(Ability)l;
+					if (l instanceof Upgrade)player.pickupUpgrade((Upgrade)l);
+					if (l instanceof Armour) player.pickUpArmour((Armour)l);;
+				
+					//set the loot to null, the total amout of loot-1
+					map[currRoomLocation[0]][currRoomLocation[1]].roomLoot[i]=null;
+					map[currRoomLocation[0]][currRoomLocation[1]].lootAmt--;
+					displayDialogue="you picked up "+item;
+					break;
+				}
+			}
+		}else {
+			displayDialogue="the loot is guarded by monsters";
 		}
 	}
 
@@ -396,10 +425,11 @@ public class MainGame {
 
 	DrawingPanel dPanel = new DrawingPanel();
 	JTextArea commandBox;
+	String lastCommand;
 	Player player=new Player();
 	static int floor = 1;
 
-	
+
 	int[] currRoomLocation=new int[2];
 
 	String[] functionTrigger={"move","consume","attack","take","cast","climb"};

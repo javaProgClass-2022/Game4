@@ -24,7 +24,6 @@ public class Enemy {
 
 
 	void takeDmg(int dmg){
-		System.out.println(hp);
 		hp -=dmg;
 		if(hp<0) hp=0;
 		MainGame.displayDialogue += ("The " + name + " took " + dmg + " damage");
