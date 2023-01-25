@@ -20,14 +20,15 @@ public class Room {
 
 
 		//Adding the Enemies
-		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
+//		enemyAmt = (int) ((Math.random()*2)) + MainGame.floor;
+		enemyAmt=1;
 		if (enemyAmt>15) enemyAmt=15;
 		
 		enemies = new Enemy[enemyAmt];
 		for (int i = 0; i < enemyAmt; i++) enemies[i] = new Enemy();
 
 		//Adding the Loot
-		lootAmt = (int) ((Math.random()*3));
+		lootAmt = (int) Math.random()*3+1;
 		roomLoot = new Loot[lootAmt];
 
 		for (int i = 0; i < lootAmt; i ++) {
@@ -56,7 +57,7 @@ public class Room {
 		String display = "";
 		//If there are no enemies display the loot in the room
 		if (enemyAmt==0) {
-			display = ("The room countains the following items:        "); //Each line contains 48 characters so to display the text better we add spaces
+			display = ("The room countains the following loot:         "); //Each line contains 48 characters so to display the text better we add spaces
 			for (int i = 0; i < lootAmt; i++) {
 				Loot currentLoot = roomLoot[i];
 				if  (currentLoot instanceof Weapon) currentLoot = (Weapon)currentLoot;
@@ -65,10 +66,11 @@ public class Room {
 				if  (currentLoot instanceof Upgrade) currentLoot = (Upgrade)currentLoot;
 				if  (currentLoot instanceof Armour) currentLoot = (Armour)currentLoot;
 
-				System.out.println(currentLoot.name);
-				display += currentLoot.toString();
-				display += (48 - currentLoot.toString().length()); //Adding the extra characters to go  to the next line
+//				System.out.println(currentLoot.);
+				display = display+ currentLoot.toString()+", ";
+//				display += (48 - currentLoot.toString().length()); //Adding the extra characters to go  to the next line
 			}
+			display=display.substring(0,display.length()-2);
 		}
 
 		//If there are enemies display them

@@ -12,7 +12,6 @@ public class Maps {
 	static final int VISITED=3;
 	static final int size = 7;
 	
-	boolean ladderSpawned=false;
 	
 	int roomCount=0;
 	
@@ -32,8 +31,6 @@ public class Maps {
 		generated.add(center);
 		
 		check();
-		
-		convertMap();
 	}
 
 	void check() {
@@ -155,27 +152,33 @@ public class Maps {
 		Room[][] map=new Room[size][size];
 		
 		int count=0;
+		boolean ladderSpawned=false;
 		
 		for (int i=0;i<size;i++) {
 			for (int j=0;j<size;j++) {
 				if (mapp[i][j]==1) {
 					count++;
 					map[i][j]=new Room();
-					if((int)(Math.random()*randomRoomsNums+1)==1 && !ladderSpawned) {
+					if(!ladderSpawned && (int)(Math.random()*randomRoomsNums+1)==1) {
 						map[i][j].ladder=true;
 						ladderSpawned=true;
+						System.out.println("ladder room at  "+i+"  "+j);
 					}
+					if(!ladderSpawned && count==randomRoomsNums) {
+						map[i][j].ladder=true;
+						System.out.println("ladder room at  "+ i+"  "+j);
+					}
+					
 				}
-				if (mapp[i][j]==2) {
-					count++;
+				if (mapp[i][j]==2) { //set default spawn room at center
+//					count++;
 					map[i][j]=new Room();
 					map[i][j].explored=true;
 					map[i][j].currentRoom=true;
-					
-					if(count==randomRoomsNums && !ladderSpawned) map[i][j].ladder=true;
 				}
 				
 			}
+			
 		}
 		return map;
 	}

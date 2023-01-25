@@ -45,9 +45,10 @@ public class Player {
 		//Checking if crit triggers
 		int critRandomizer = (int) ((Math.random()*100)+1);	
 		if (critRandomizer <= critChance) {
-			dmg *= (int) critDmg;
-			MainGame.displayDialogue = ("Critical Hit!");
-		}
+			dmg *= critDmg;
+			MainGame.displayDialogue = ("Critical Hit! ");
+		}else MainGame.displayDialogue ="";
+		
 		return dmg;
 	}
 

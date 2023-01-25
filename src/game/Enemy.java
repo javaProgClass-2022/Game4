@@ -24,11 +24,19 @@ public class Enemy {
 
 
 	void takeDmg(int dmg){
-		hp =-dmg;
-		if (hp > 0) MainGame.displayDialogue = ("The " + name + " took " + dmg + " damage" );
-		else {
-			MainGame.displayDialogue = ("The " + name + " has been slain");
-		}
+		System.out.println(hp);
+		hp -=dmg;
+		if(hp<0) hp=0;
+		MainGame.displayDialogue += ("The " + name + " took " + dmg + " damage");
+		
+		
+		for(int i=MainGame.displayDialogue.length()%48;i<=48;i++) MainGame.displayDialogue += " ";
+		MainGame.displayDialogue +=(hp +" hp left" );
+		
+		for(int i=MainGame.displayDialogue.length()%48;i<=48;i++) MainGame.displayDialogue += " ";
+		
+		if (hp <= 0) MainGame.displayDialogue += ("The " + name + " has been slain");
+		
 	}
 }
 

@@ -212,9 +212,33 @@ public class MainGame {
 						g2.fillRect(62+j*roomSize, 62+i*roomSize, roomSize, roomSize);
 						g2.setColor(Color.WHITE);
 						g2.drawRect(62+j*roomSize, 62+i*roomSize, roomSize, roomSize);
-						if (map[i][j].currentRoom) {
+						if (map[i][j].currentRoom &&map[i][j].ladder) {
+							//if player is currently in ladder room
+							g2.fillRect(69+j*roomSize, 72+i*roomSize, 2, 20);
+							g2.fillRect(78+j*roomSize, 72+i*roomSize, 2, 20);
+							
+							g2.fillRect(69+j*roomSize, 76+i*roomSize, 9, 2);
+							g2.fillRect(69+j*roomSize, 81+i*roomSize, 9, 2);
+							g2.fillRect(69+j*roomSize, 86+i*roomSize, 9, 2);
+							
+							g2.drawOval(84+j*roomSize, 77+i*roomSize, 12, 12);
+							g2.fillOval(87+j*roomSize, 80+i*roomSize, 6, 6);
+							currRoomLocation[0]=i;
+							currRoomLocation[1]=j;
+							
+						}else if (map[i][j].currentRoom) {
 							g2.drawOval(72+j*roomSize, 72+i*roomSize, 20, 20);
 							g2.fillOval(77+j*roomSize, 77+i*roomSize, 10, 10);
+							currRoomLocation[0]=i;
+							currRoomLocation[1]=j;
+						}else if (map[i][j].ladder) {
+							g2.setColor(Color.LIGHT_GRAY);
+							g2.fillRect(75+j*roomSize, 72+i*roomSize, 2, 20);
+							g2.fillRect(87+j*roomSize, 72+i*roomSize, 2, 20);
+							
+							g2.fillRect(75+j*roomSize, 76+i*roomSize, 12, 2);
+							g2.fillRect(75+j*roomSize, 81+i*roomSize, 12, 2);
+							g2.fillRect(75+j*roomSize, 86+i*roomSize, 12, 2);
 							currRoomLocation[0]=i;
 							currRoomLocation[1]=j;
 						}

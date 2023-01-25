@@ -13,20 +13,17 @@ public class Weapon extends Loot {
 
 
 	int atkDmg;
-	int weight;
 	int accuracy;
 
 	Weapon(){
 		name = WEAPONNAMES[(int) ((Math.random()*WEAPONNAMES.length))];
 		atkDmg = (int) ((Math.random()*6)) + MainGame.floor*3;
-		weight = (int) ((Math.random()*25)+1);
 		accuracy = 100;
 	}
 
 	Weapon(String defaultname){
 		name = "Ham";
 		atkDmg = 5;
-		weight = 10;
 		accuracy = 75;
 	}
 
