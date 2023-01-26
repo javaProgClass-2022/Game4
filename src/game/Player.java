@@ -12,7 +12,7 @@ public class Player {
 	int critChance;
 	double critDmg;
 	
-	final int MAXHP=50;
+	final int MAXHP=40;
 
 	//Player Inventory
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();

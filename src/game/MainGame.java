@@ -56,7 +56,7 @@ public class MainGame {
 				}
 				g2.setColor(Color.BLACK);
 				g2.setFont(new Font("Bradley Hand",Font.BOLD+Font.ITALIC,45));
-				g2.drawString("you died. nice try.", 120, 285);
+				g2.drawString("WASTED", 200, 290);
 			}else if (startScreen) {
 				g2.setColor(Color.BLACK);
 				g2.fillRect(0, 0, PANW, PANH);
@@ -393,8 +393,9 @@ public class MainGame {
 		if(direction.equalsIgnoreCase("down")|| direction.equalsIgnoreCase("S"))i+=1;
 		if(direction.equalsIgnoreCase("left")|| direction.equalsIgnoreCase("W"))j-=1;
 
-
-		if (i<0 || j<0 || i>map.length || j>map.length) {
+		if (currRoomLocation[0]==i && currRoomLocation[1]==j) {
+			displayDialogue="direction unreconized. please try again";
+		}else if (i<0 || j<0 || i>map.length || j>map.length) {
 			//if out of bounds
 			displayDialogue="no room exist on requested direction";
 		}else if (map[i][j]==null) {

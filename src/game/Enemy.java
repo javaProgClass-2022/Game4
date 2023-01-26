@@ -5,7 +5,7 @@ package game;
 
 public class Enemy {
 	String name;
-	static final String ENEMYNAMES[] = {"Hobgoblin", "Oger", "Dwarf", "Forst Sprite", "Ghost", "Water Spirt", "Elf", "Goblin", "Zombie", "Snake", "Gargoyle",
+	static final String ENEMYNAMES[] = {"Hobgoblin", "Oger", "Dwarf", "Forst Sprite", "Ghost", "Water Spirit", "Elf", "Goblin", "Zombie", "Snake", "Gargoyle",
 			"Blue Slime", "Green Slime", "Red Slime", "Flegling Dragons", "Golem", "Demon", "Troll", "Vampire", "Minotaur", "Phoenix", "Griffin",
 			"Harpy", "Kelpie", "Dryad", "Satyr", "Centaur","Gnome", "Will o' wisp", "Wraith"
 	};
