@@ -78,7 +78,6 @@ public class Room {
 				if  (currentLoot instanceof Upgrade) currentLoot = (Upgrade)currentLoot;
 				if  (currentLoot instanceof Armour) currentLoot = (Armour)currentLoot;
 
-//				System.out.println(currentLoot.);
 				display = (display+ currentLoot.toString()+", ");
 			}
 			display=display.substring(0,display.length()-2);//remove ending , 

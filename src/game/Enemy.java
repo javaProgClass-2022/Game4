@@ -19,11 +19,14 @@ public class Enemy {
 		name = ENEMYNAMES[(int) ((Math.random()*ENEMYNAMES.length))];
 		hp = (int) ((Math.random()*10)) + MainGame.floor*5;
 		atkDmg = (int) ((Math.random()*3)) + MainGame.floor*2;
+//		atkDmg = 100;
 		speed = (int) ((Math.random()*100))+1;
 	}
 
 
 	void takeDmg(int dmg){
+		if(hp<dmg) dmg=hp;//actuall damage taken when ememy is going to die
+		
 		hp -=dmg;
 		if(hp<0) hp=0;
 		MainGame.displayDialogue += ("The " + name + " took " + dmg + " damage");

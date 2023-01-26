@@ -317,9 +317,11 @@ public class MainGame {
 
 	void consume(String item) {
 		//if the name of the item exist in player inventory
-		if (player.inventory.containsKey(item)) {
+		System.out.println(player.inventory);
+		System.out.println(item.toLowerCase());
+		if (player.inventory.containsKey(item.toLowerCase())) {
 			player.useItem(player.inventory.get(item));
-		}else displayDialogue=item+" not found";
+		}else displayDialogue=item+" is not in your inventory";
 
 	}
 
@@ -364,6 +366,13 @@ public class MainGame {
 				if (n!=null && name.equalsIgnoreCase(n.name)) {
 					n.takeDmg(player.dealWeaponDmg());
 					map[currRoomLocation[0]][currRoomLocation[1]].checkStatus();
+					
+					if (n.hp>0) {
+						player.takeDmg(n.atkDmg, n.name);
+//						for(int i=displayDialogue.length()%48;i<48;i++) displayDialogue+=" ";
+						displayDialogue += ("You took " + (n.atkDmg-player.def) + " damage from "+n.name);
+					}
+					break;
 				}
 			}
 		}
@@ -377,6 +386,7 @@ public class MainGame {
 				if(map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt==0) {
 					floor+=1;
 					map= new Maps().convertMap();
+					displayDialogue="you are now at a new floor";
 				}else {
 					displayDialogue="the ladder is guarded by monsters";
 				}
@@ -391,6 +401,8 @@ public class MainGame {
 
 	void take(String item) {
 		if (map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt==0) {
+			boolean itemExist=false;
+			
 			for(int i=0;i<map[currRoomLocation[0]][currRoomLocation[1]].lootAmt;i++) {
 				
 				Loot l=map[currRoomLocation[0]][currRoomLocation[1]].roomLoot[i];
@@ -405,9 +417,11 @@ public class MainGame {
 					map[currRoomLocation[0]][currRoomLocation[1]].roomLoot[i]=null;
 					map[currRoomLocation[0]][currRoomLocation[1]].lootAmt--;
 					displayDialogue="you picked up "+item;
+					itemExist=true;
 					break;
 				}
 			}
+			if (!itemExist) displayDialogue="there is no "+item+" in the room";
 		}else {
 			displayDialogue="the loot is guarded by monsters";
 		}
@@ -447,10 +461,10 @@ public class MainGame {
 		Consumable c1=new Consumable();
 		Consumable c2=new Consumable();
 		Consumable c3=new Consumable();
-
-		player.inventory.put(c1.name, c1);
-		player.inventory.put(c2.name, c2);
-		player.inventory.put(c3.name, c3);
+		
+		player.pickUpConsumable(c1);
+		player.pickUpConsumable(c2);
+		player.pickUpConsumable(c3);
 
 		dPanel.setLayout(null);
 		panelFrameSetup();

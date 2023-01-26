@@ -6,13 +6,13 @@ import java.util.HashMap;
 
 public class Player {
 	//Player Stats
-//	int weight;
 	int hp;
-//	int speed;
 	int def;
 	int atkBoost;
 	int critChance;
 	double critDmg;
+	
+	final int MAXHP=10;
 
 	//Player Inventory
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();
@@ -21,8 +21,7 @@ public class Player {
 	Ability playerAbility;
 
 	Player(){
-		hp = 100;
-//		speed = 100;
+		hp = MAXHP;
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
@@ -31,11 +30,17 @@ public class Player {
 	}
 
 
-	void takeDmg(int dmg){
+	void takeDmg(int dmg,String enemyName){
 		int dmgTaken = dmg - def;
 		if (dmgTaken < 0) dmgTaken = 0;
-		hp =- dmgTaken;
-		MainGame.displayDialogue = ("You took " + hp + " damage");
+		
+		
+		if(hp<=dmgTaken) {//if player takes more damage than current hp
+			hp=0;
+			//TODO player death method
+//			MainGame.playerDeath();
+			System.out.println("player dead");
+		}else hp -= dmgTaken;
 	}
 
 
@@ -66,7 +71,10 @@ public class Player {
 
 	void useItem(Consumable item) {
 		hp += item.hpGain;
-		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + item.hpGain + " HP";
+		int actualGain=item.hpGain-(hp/10)*(hp%10);//the actuall hp amount gained (to not go over maxHP)
+		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + actualGain + " HP";
+		
+		if (hp>MAXHP)hp=MAXHP;//hp value should never go above maxHP
 	}
 
 
@@ -91,7 +99,7 @@ public class Player {
 	}
 	
 	void pickUpConsumable(Consumable food) {
-		inventory.put(food.name, food);
+		inventory.put((food.name.toLowerCase()), food);
 		MainGame.displayDialogue = (food.name + " added to inventory");
 	}
 
