@@ -9,6 +9,7 @@ public class Enemy {
 			"Blue Slime", "Green Slime", "Red Slime", "Flegling Dragons", "Golem", "Demon", "Troll", "Vampire", "Minotaur", "Phoenix", "Griffin",
 			"Harpy", "Kelpie", "Dryad", "Satyr", "Centaur","Gnome", "Will o' wisp", "Wraith"
 	};
+//	static final String ENEMYNAMES[] = {"a"};
 
 
 	int hp;

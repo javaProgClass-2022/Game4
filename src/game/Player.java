@@ -12,7 +12,7 @@ public class Player {
 	int critChance;
 	double critDmg;
 	
-	final int MAXHP=10;
+	final int MAXHP=50;
 
 	//Player Inventory
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();
@@ -30,7 +30,8 @@ public class Player {
 	}
 
 
-	void takeDmg(int dmg,String enemyName){
+	//returns true when player's hp <=0
+	boolean takeDmg(int dmg,String enemyName){
 		int dmgTaken = dmg - def;
 		if (dmgTaken < 0) dmgTaken = 0;
 		
@@ -38,9 +39,10 @@ public class Player {
 		if(hp<=dmgTaken) {//if player takes more damage than current hp
 			hp=0;
 			//TODO player death method
-//			MainGame.playerDeath();
 			System.out.println("player dead");
+			return true;
 		}else hp -= dmgTaken;
+		return false;
 	}
 
 

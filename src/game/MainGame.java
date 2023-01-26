@@ -6,19 +6,20 @@ package game;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 
 //TODO make command not case-sensitive
@@ -38,13 +39,33 @@ public class MainGame {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g;
-			//			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			g2.setStroke(new BasicStroke(2));	
 			g2.setColor(Color.white);
+
 			printBoard(g2);
 			printConsole(g2);
 			printMap(g2);
+
+			if (playerDead) {
+				dPanel.remove(commandBox);
+				g2.setColor(new Color(255,255,255,90));
+
+				for(int i=0;i<curtainLayer;i++) {
+					g2.fillRect(0, 0, PANW, curtainLayer*10);
+				}
+				g2.setColor(Color.BLACK);
+				g2.setFont(new Font("Bradley Hand",Font.BOLD+Font.ITALIC,45));
+				g2.drawString("you died. nice try.", 120, 285);
+			}else if (startScreen) {
+				g2.setColor(Color.BLACK);
+				g2.fillRect(0, 0, PANW, PANH);
+
+				g2.setColor(Color.WHITE);
+				g2.drawString("welcome to the text adventure game", 140, 265);
+				g2.drawString("press - S - to start", 205, 320);
+			}
+
 		}
 	}
 
@@ -55,7 +76,6 @@ public class MainGame {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-
 			if (e.getKeyCode()==38) {
 				commandBox.setText(lastCommand);
 			}
@@ -95,13 +115,54 @@ public class MainGame {
 
 	}
 
+		class KLforStartScreen implements KeyListener{
+	
+			@Override
+			public void keyTyped(KeyEvent e) {}
+	
+			@Override
+			public void keyPressed(KeyEvent e) {}
+	
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==83) {//key "s"
+					startScreen=false;
+					dPanel.add(commandBox);
+					frame.removeKeyListener(keyL);
+					
+					dPanel.repaint();
+				}
+			}
+	
+		}
+
+
+	class DeathTimer implements ActionListener{
+		int count=0;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(curtainLayer<65) {
+				curtainLayer+=1;
+				count++;
+				dPanel.repaint();
+			}else deathTimer.stop();
+		}
+	}
+
+	//start game and death display
+
+	void playerDeath() {
+		playerDead=true;
+		deathTimer.start();
+	}
+
 	//methods
 	void panelFrameSetup() {
-		JFrame frame = new JFrame("Wrrrreeeeee");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );		
 		frame.setResizable(false);
 
-		KL keyL=new KL();
+
 		commandBox=new JTextArea();
 		commandBox.addKeyListener(keyL);
 		commandBox.setBounds(145,390,415,40);
@@ -109,10 +170,8 @@ public class MainGame {
 		commandBox.setFont(new Font("Bradley Hand",Font.PLAIN,15));
 		commandBox.setMargin(new Insets(10,10,10,10));
 
-
-		dPanel.add(commandBox);
-
-		//		
+		frame.addKeyListener(keyL2);
+		
 		frame.add(dPanel);
 		frame.pack();
 		frame.setLocationRelativeTo( null );		
@@ -164,10 +223,10 @@ public class MainGame {
 
 	void printConsole(Graphics2D g2) {
 		g2.setColor(Color.darkGray);
-		g2.drawString("---------1---------2---------3---------4-------8", 60, 455);
-		g2.drawString("---------1---------2---------3---------4-------8", 60, 480);
-		g2.drawString("---------1---------2---------3---------4-------8", 60, 505);
-		g2.drawString("---------1---------2---------3---------4-------8", 60, 530);
+		g2.drawString("------------------------------------------------", 60, 455);
+		g2.drawString("------------------------------------------------", 60, 480);
+		g2.drawString("------------------------------------------------", 60, 505);
+		g2.drawString("------------------------------------------------", 60, 530);
 
 		g2.setColor(Color.WHITE);
 
@@ -259,9 +318,8 @@ public class MainGame {
 
 
 	void handelCommand() {
-
 		//find corrisponding command
-		if (currCommand[0].equalsIgnoreCase("consume")) {
+		if (currCommand[0].equalsIgnoreCase("consume")|| currCommand[0].equalsIgnoreCase("eat")) {
 			consume(currCommand[1]);
 		}
 		if (currCommand[0].equalsIgnoreCase("move")) {
@@ -273,7 +331,8 @@ public class MainGame {
 		if (currCommand[0].equalsIgnoreCase("climb")) {
 			climb(currCommand[1]);
 		}
-		if (currCommand[0].equalsIgnoreCase("take")) {
+		if (currCommand[0].equalsIgnoreCase("take")||currCommand[0].equalsIgnoreCase("grab")) {
+
 			take(currCommand[1]);
 		}
 		dPanel.repaint();
@@ -288,7 +347,7 @@ public class MainGame {
 					+ "-investigate- display loot if no enemie exist";
 		}
 		if (currCommand[0].equalsIgnoreCase("inventory")) {
-			displayDialogue="Inventory-  ";
+			displayDialogue="Inventory -  ";
 			if(player.inventory.size()==0)displayDialogue+="empty";
 			else {
 				for(String k:player.inventory.keySet()) {
@@ -317,8 +376,6 @@ public class MainGame {
 
 	void consume(String item) {
 		//if the name of the item exist in player inventory
-		System.out.println(player.inventory);
-		System.out.println(item.toLowerCase());
 		if (player.inventory.containsKey(item.toLowerCase())) {
 			player.useItem(player.inventory.get(item));
 		}else displayDialogue=item+" is not in your inventory";
@@ -331,10 +388,10 @@ public class MainGame {
 		int i=currRoomLocation[0];
 		int j=currRoomLocation[1];
 
-		if(direction.equalsIgnoreCase("up")) i-=1;
-		if(direction.equalsIgnoreCase("right"))j+=1;
-		if(direction.equalsIgnoreCase("down"))i+=1;
-		if(direction.equalsIgnoreCase("left"))j-=1;
+		if(direction.equalsIgnoreCase("up") || direction.equalsIgnoreCase("N")) i-=1;
+		if(direction.equalsIgnoreCase("right")|| direction.equalsIgnoreCase("E"))j+=1;
+		if(direction.equalsIgnoreCase("down")|| direction.equalsIgnoreCase("S"))i+=1;
+		if(direction.equalsIgnoreCase("left")|| direction.equalsIgnoreCase("W"))j-=1;
 
 
 		if (i<0 || j<0 || i>map.length || j>map.length) {
@@ -365,11 +422,13 @@ public class MainGame {
 			for (Enemy n:map[currRoomLocation[0]][currRoomLocation[1]].enemies) {
 				if (n!=null && name.equalsIgnoreCase(n.name)) {
 					n.takeDmg(player.dealWeaponDmg());
+
 					map[currRoomLocation[0]][currRoomLocation[1]].checkStatus();
-					
+
 					if (n.hp>0) {
-						player.takeDmg(n.atkDmg, n.name);
-//						for(int i=displayDialogue.length()%48;i<48;i++) displayDialogue+=" ";
+						//						System.out.println(player.takeDmg(n.atkDmg, n.name));
+						if(player.takeDmg(n.atkDmg, n.name)) playerDeath();
+						//						for(int i=displayDialogue.length()%48;i<48;i++) displayDialogue+=" ";
 						displayDialogue += ("You took " + (n.atkDmg-player.def) + " damage from "+n.name);
 					}
 					break;
@@ -402,9 +461,9 @@ public class MainGame {
 	void take(String item) {
 		if (map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt==0) {
 			boolean itemExist=false;
-			
+
 			for(int i=0;i<map[currRoomLocation[0]][currRoomLocation[1]].lootAmt;i++) {
-				
+
 				Loot l=map[currRoomLocation[0]][currRoomLocation[1]].roomLoot[i];
 				if (item.equalsIgnoreCase(l.toString())) {//if item is a loot in room
 					if (l instanceof Weapon) player.pickUpWeapon((Weapon)l);;
@@ -412,7 +471,7 @@ public class MainGame {
 					if (l instanceof Ability)player.playerAbility=(Ability)l;
 					if (l instanceof Upgrade)player.pickupUpgrade((Upgrade)l);
 					if (l instanceof Armour) player.pickUpArmour((Armour)l);;
-				
+
 					//set the loot to null, the total amout of loot-1
 					map[currRoomLocation[0]][currRoomLocation[1]].roomLoot[i]=null;
 					map[currRoomLocation[0]][currRoomLocation[1]].lootAmt--;
@@ -437,7 +496,17 @@ public class MainGame {
 	final static int PANW = 600;
 	final static int PANH = 600;
 
+	boolean playerDead=false;
+	boolean startScreen=true;
+
+	KL keyL=new KL();
+	KLforStartScreen keyL2=new KLforStartScreen();
+	Timer deathTimer=new Timer(45, new DeathTimer());
+	int curtainLayer=0;//the closing curtain on death
+
+	JFrame frame = new JFrame("Wrrrreeeeee");
 	DrawingPanel dPanel = new DrawingPanel();
+	
 	JTextArea commandBox;
 	String lastCommand;
 	Player player=new Player();
@@ -446,7 +515,7 @@ public class MainGame {
 
 	int[] currRoomLocation=new int[2];
 
-	String[] functionTrigger={"move","consume","attack","take","cast","climb"};
+	String[] functionTrigger={"move","consume","eat","attack","take","grab","cast","climb"};
 	String[] menuTrigger={"help","inventory","status","achievement","staff","investigate"};
 	String[] currCommand;
 	static String displayDialogue="";
@@ -458,14 +527,6 @@ public class MainGame {
 
 	//constructor
 	MainGame() {
-		Consumable c1=new Consumable();
-		Consumable c2=new Consumable();
-		Consumable c3=new Consumable();
-		
-		player.pickUpConsumable(c1);
-		player.pickUpConsumable(c2);
-		player.pickUpConsumable(c3);
-
 		dPanel.setLayout(null);
 		panelFrameSetup();
 	}
