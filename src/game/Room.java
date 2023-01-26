@@ -28,15 +28,15 @@ public class Room {
 		for (int i = 0; i < enemyAmt; i++) enemies[i] = new Enemy();
 
 		//Adding the Loot
-		lootAmt = (int) Math.random()*3+1;
+		lootAmt = (int) (Math.random()*3)+1;
 		roomLoot = new Loot[lootAmt];
 
 		for (int i = 0; i < lootAmt; i ++) {
-			int lootType =  (int) ((Math.random()*5));
+			int lootType =  (int) ((Math.random()*4));
 			if (lootType == 0) roomLoot[i] = new Weapon();
 			if (lootType == 1) roomLoot[i] = new Consumable();
 			if (lootType == 2) roomLoot[i] = new Armour();
-			if (lootType == 4) roomLoot[i] = new Upgrade();
+			if (lootType == 3) roomLoot[i] = new Upgrade();
 		}	
 	}
 
@@ -76,7 +76,7 @@ public class Room {
 				if  (currentLoot instanceof Upgrade) currentLoot = (Upgrade)currentLoot;
 				if  (currentLoot instanceof Armour) currentLoot = (Armour)currentLoot;
 
-				display = (display+ currentLoot.toString()+", ");
+				display = (display + currentLoot.toString()+", ");
 			}
 			display=display.substring(0,display.length()-2);//remove ending , 
 		}

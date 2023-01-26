@@ -14,7 +14,7 @@ public class Consumable extends Loot {
 	int hpGain;
 
 	Consumable(){
-		hpGain = (int) ((Math.random()*6)+1);	
+		hpGain = (int) ((Math.random()*15)+1);	
 		name = CONSUMEABLENAMES[(int) ((Math.random()*CONSUMEABLENAMES.length))];
 
 	}

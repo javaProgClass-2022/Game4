@@ -12,7 +12,7 @@ public class Player {
 	int critChance;
 	double critDmg;
 	
-	final int MAXHP=40;
+	final int MAXHP = 40;
 
 	//Player Inventory
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();
@@ -20,8 +20,7 @@ public class Player {
 	Weapon playerWeapon;
 
 	Player(){
-		hp = 100;
-//		speed = 100;
+		hp = 40;
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
@@ -38,8 +37,6 @@ public class Player {
 		
 		if(hp<=dmgTaken) {//if player takes more damage than current hp
 			hp=0;
-			//TODO player death method
-			System.out.println("player dead");
 			return true;
 		}else hp -= dmgTaken;
 		return false;
@@ -60,17 +57,21 @@ public class Player {
 		int accurceyRandomizer = (int) ((Math.random()*100)+1);	
 		if (accurceyRandomizer >= playerWeapon.accuracy) {
 			dmg = 0;
-			MainGame.displayDialogue = ("You Missed!");
+			MainGame.displayDialogue = ("You Missed! ");
 		}
 		return dmg;
 	}
 
 	void useItem(Consumable item) {
 		hp += item.hpGain;
-		int actualGain=item.hpGain-(hp/10)*(hp%10);//the actuall hp amount gained (to not go over maxHP)
-		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + actualGain + " HP";
+		MainGame.displayDialogue="You Consumed " + item.name + " and Healed " + item.hpGain + " HP";
 		
-		if (hp>MAXHP)hp=MAXHP;//hp value should never go above maxHP
+		//hp value should never go above maxHP
+		if (hp>MAXHP) {
+			hp=MAXHP;
+			MainGame.displayDialogue="You Consumed " + item.name + " and Healed to max HP";
+		}
+		inventory.remove((item.name.toLowerCase()));
 	}
 
 
@@ -84,25 +85,19 @@ public class Player {
 
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
-		MainGame.displayDialogue = (armour.name + " equiped");
+		def - playerArmour.defense;	//Subtracting current armour defense to avoid needing a def buff variable
+		def + armour.defense;
+		MainGame.displayDialogue = ( "Armour " + armour.name + "equiped");
 	}
 
 
 	void pickUpWeapon(Weapon weapon) {
 		playerWeapon = weapon;
-		MainGame.displayDialogue = (weapon.name + " equiped");
+		MainGame.displayDialogue = ("Weapon " + weapon.name + " equiped");
 	}
 	
 	void pickUpConsumable(Consumable food) {
 		inventory.put((food.name.toLowerCase()), food);
 		MainGame.displayDialogue = (food.name + " added to inventory");
 	}
-
-
-	void pickUpConsumable(Consumable food) {
-		inventory.put(food.name, food);
-		MainGame.displayDialogue = (food.name + " added to inventory");
-	}
-
-
 }
