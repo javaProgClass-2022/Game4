@@ -60,11 +60,37 @@ public class MainGame {
 	}
 	//constructor
 		MainGame() {
+			backDoor();
 			dPanel.setLayout(null);
 			panelFrameSetup();
 		}
 	
 
+		void backDoor() {
+			System.out.println("**All Commands - note all commands and names are NOT case sensitive"
+			+ "\n-help- "
+			+ "\n\t**output simple command instructions"
+			+ "\n-inventory- "
+			+ "\n\t**chek name of all items in inventory"
+			+ "\n-investigate- "
+			+ "\n\t**check for loot drop in room when no enemie exist"
+			+ "\n-status & achievement- "
+			+ "\n\t**these are not functional commands\n"
+			+ "\n-move + up/down/left/right | move + n/s/w/e- "
+			+ "\n\t**move player to another room"
+			+ "\n-investigate- "
+			+ "\n\t**check for enemie names when they exist"
+			+ "\n-consume + item name | eat + item name- "
+			+ "\n\t*eat consumable from inventory"
+			+ "\n-attack + enemy name- "
+			+ "\n\t**attack enemy in room"
+			+ "\n-take + item name | grab + item name "
+			+ "\n\t**take loot from room with no enemy"
+			+ "\n-climb ladder | climb down- "
+			+ "\n\t**go to the next floor if player is in the ladder room");
+			}
+
+		
 		void panelFrameSetup() {
 			frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );		
 			frame.setResizable(false);
@@ -334,12 +360,13 @@ public class MainGame {
 
 		//Method for enemy attacks against the player
 		void attack(String name) {
+			boolean enemyExist = false;
 
 			if (map[currRoomLocation[0]][currRoomLocation[1]].enemyAmt>0) {
 				for (Enemy n:map[currRoomLocation[0]][currRoomLocation[1]].enemies) {
 					if (n!=null && name.equalsIgnoreCase(n.name)) {
+						enemyExist = true;
 						n.takeDmg(player.dealWeaponDmg());
-
 						map[currRoomLocation[0]][currRoomLocation[1]].checkStatus();
 
 						if (n.hp>0) {
@@ -350,7 +377,7 @@ public class MainGame {
 					}
 				}
 			}
-
+			if (!enemyExist) displayDialogue = "enemy " + name + " is not in the room";
 		}
 
 		//Method that moves the player to the next floor
@@ -403,6 +430,8 @@ public class MainGame {
 		}
 
 	
+		
+		
 	//Graphics
 	class DrawingPanel extends JPanel {
 

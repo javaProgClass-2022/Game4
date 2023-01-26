@@ -168,11 +168,11 @@ public class Maps {
 					if(!ladderSpawned && (int)(Math.random()*randomRoomsNums+1)==1) {
 						map[i][j].ladder=true;
 						ladderSpawned=true;
-						System.out.println("ladder room at  "+(i+1)+"  "+(j+1));
+						System.out.println("ladder room at x="+(i+1)+", y="+(j+1)+" *source code in Maps.java\n");
 					}
 					if(!ladderSpawned && count==randomRoomsNums) {
 						map[i][j].ladder=true;
-						System.out.println("ladder room at  "+ (i+1)+"  "+(j+1));
+						System.out.println("ladder room at x="+(i+1)+", y="+(j+1)+" *source code in Maps.java\n");
 					}
 					
 				}
