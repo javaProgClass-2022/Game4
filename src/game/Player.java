@@ -18,10 +18,10 @@ public class Player {
 	HashMap<String, Consumable> inventory = new HashMap <String, Consumable>();
 	Armour playerArmour;
 	Weapon playerWeapon;
-	Ability playerAbility;
 
 	Player(){
-		hp = MAXHP;
+		hp = 100;
+//		speed = 100;
 		def = 1;
 		critChance = 10;
 		critDmg = 1.5;
@@ -52,24 +52,18 @@ public class Player {
 		//Checking if crit triggers
 		int critRandomizer = (int) ((Math.random()*100)+1);	
 		if (critRandomizer <= critChance) {
-			dmg *= critDmg;
-			MainGame.displayDialogue = ("Critical Hit! ");
-		}else MainGame.displayDialogue ="";
+			dmg *= (int) critDmg;
+			MainGame.displayDialogue = ("Critical Hit!");
+		}
 		
+		//Checking if the weapon hits
+		int accurceyRandomizer = (int) ((Math.random()*100)+1);	
+		if (accurceyRandomizer >= playerWeapon.accuracy) {
+			dmg = 0;
+			MainGame.displayDialogue = ("You Missed!");
+		}
 		return dmg;
 	}
-
-	//Note Abilities are Armour piercing
-	void useAbility(Enemy target) {
-		if (playerAbility.cooldownRoomAmt <= playerAbility.roomsSinceUse) {
-			hp += playerAbility.hpGain;
-			target.takeDmg(playerAbility.atkDmg);
-			playerAbility.roomsSinceUse = 0;
-			MainGame.displayDialogue = ("You healed " + playerAbility.hpGain +" Health" );
-		}
-		else {MainGame.displayDialogue = ("Ability is not off cooldown");}
-	}
-
 
 	void useItem(Consumable item) {
 		hp += item.hpGain;
@@ -82,7 +76,6 @@ public class Player {
 
 	void pickupUpgrade (Upgrade up ) {
 		def+=up.defenseUp;
-//		speed += up.speedUp;
 		critChance += up.critChanceUp;
 		critDmg += up.critDmgUp;
 		MainGame.displayDialogue = ("Random Stat Upgraded");
@@ -102,6 +95,12 @@ public class Player {
 	
 	void pickUpConsumable(Consumable food) {
 		inventory.put((food.name.toLowerCase()), food);
+		MainGame.displayDialogue = (food.name + " added to inventory");
+	}
+
+
+	void pickUpConsumable(Consumable food) {
+		inventory.put(food.name, food);
 		MainGame.displayDialogue = (food.name + " added to inventory");
 	}
 

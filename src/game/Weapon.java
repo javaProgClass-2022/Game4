@@ -21,7 +21,7 @@ public class Weapon extends Loot {
 		accuracy = 100;
 	}
 
-	Weapon(String defaultname){
+	Weapon(String defaultArmour){
 		name = "Ham";
 		atkDmg = 5;
 		accuracy = 75;

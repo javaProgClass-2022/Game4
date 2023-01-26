@@ -20,7 +20,12 @@ public class Armour extends Loot {
 
 	Armour(){
 		name = ARMOURNAMES[(int) ((Math.random()*ARMOURNAMES.length))];
-		defense = (int) ((Math.random()*4)+1)*MainGame.floor;	
+		defense = (int) ((Math.random()*4)+1)*MainGame.floor;
+	}
+	
+	Armour(String defaultArmour){
+		name = "Iron Armour";
+		defense = 1;
 	}
 
 	Armour(String defaultArmour){

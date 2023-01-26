@@ -205,7 +205,7 @@ public class MainGame {
 		g2.drawString(""+player.critChance, 485, 170);
 		g2.drawString(""+player.playerWeapon.atkDmg+player.atkBoost, 485, 200);
 
-		g2.setFont(new Font("Courier New", Font.BOLD, 17));
+		g2.setFont(new Font("Courier New", Font.BOLD, 16));
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.drawLine(475, 100, 475, 205);
