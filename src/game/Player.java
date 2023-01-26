@@ -50,7 +50,7 @@ public class Player {
 		int critRandomizer = (int) ((Math.random()*100)+1);	
 		if (critRandomizer <= critChance) {
 			dmg *= (int) critDmg;
-			MainGame.displayDialogue = ("Critical Hit!");
+			MainGame.displayDialogue = ("Critical Hit! ");
 		}
 		
 		//Checking if the weapon hits
@@ -87,7 +87,7 @@ public class Player {
 		playerArmour = armour;
 		def -= playerArmour.defense;	//Subtracting current armour defense to avoid needing a def buff variable
 		def += armour.defense;
-		MainGame.displayDialogue = ( "Armour " + armour.name + "equiped");
+		MainGame.displayDialogue = ( "Armour " + armour.name + " equiped");
 	}
 
 
