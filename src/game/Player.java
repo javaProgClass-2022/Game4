@@ -85,8 +85,8 @@ public class Player {
 
 	void pickUpArmour(Armour armour) {
 		playerArmour = armour;
-		def - playerArmour.defense;	//Subtracting current armour defense to avoid needing a def buff variable
-		def + armour.defense;
+		def -= playerArmour.defense;	//Subtracting current armour defense to avoid needing a def buff variable
+		def += armour.defense;
 		MainGame.displayDialogue = ( "Armour " + armour.name + "equiped");
 	}
 
